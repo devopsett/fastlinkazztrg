@@ -1,64 +1,174 @@
 <!DOCTYPE html>
-<html lang="ms">
+<html lang="ms" class="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pengurus Kata Laluan PWA</title>
-  <link rel="manifest" href="./manifest.json">
-  <meta name="theme-color" content="#0f172a">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Database Assistant</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: radial-gradient(circle at top left, #0f172a, #020617);
+    }
+    .glass {
+      background: rgba(30, 41, 59, 0.65);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    /* Sembunyikan scrollbar tetapi kekalkan fungsi skrol */
+    #chat-box::-webkit-scrollbar { width: 6px; }
+    #chat-box::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 9999px; }
+  </style>
 </head>
-<body class="bg-slate-900 text-slate-100 min-h-screen p-4 sm:p-6 font-sans antialiased pb-24 sm:pb-8">
-  <div class="max-w-2xl mx-auto space-y-4">
+<body class="text-slate-100 min-h-screen flex items-center justify-center p-3 sm:p-6 font-sans">
 
-    <!-- Header Utama -->
-    <header class="flex items-center justify-between pb-3 border-b border-slate-800">
-      <div>
-        <h1 class="text-xl sm:text-2xl font-bold text-teal-400">Pengurus Akaun</h1>
-        <p class="text-xs text-slate-400">Cloud Google Sheets & Cache Luar Talian</p>
-      </div>
-      <div class="flex items-center space-x-2">
-        <div id="networkStatus" class="flex items-center space-x-1.5 text-xs bg-slate-800 px-2.5 py-1 rounded-full border border-slate-700 text-slate-300">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Dalam Talian</span>
+  <div class="glass w-full max-w-2xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+    
+    <!-- Header -->
+    <div class="p-4 border-b border-slate-700/60 flex items-center justify-between bg-slate-900/40">
+      <div class="flex items-center gap-3">
+        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
+        <div>
+          <h1 class="font-semibold text-base sm:text-lg tracking-wide">AI Knowledge Assistant</h1>
+          <p class="text-xs text-slate-400">Berhubung terus ke pangkalan data Google Sheets</p>
         </div>
-        <button id="openModalBtn" type="button" class="inline-flex items-center space-x-1 bg-teal-500 hover:bg-teal-600 text-slate-950 font-semibold px-3 py-1.5 rounded-lg text-xs transition shadow-sm active:scale-95">
-          <span>+ Tambah Akaun</span>
-        </button>
       </div>
-    </header>
-
-    <!-- Bar Carian & Butang Segerak -->
-    <div class="flex items-center gap-2">
-      <div class="relative flex-1">
-        <input type="text" id="searchInput" placeholder="Cari nama aplikasi atau ID..."
-          class="w-full bg-slate-800/90 border border-slate-700 rounded-xl px-3.5 py-2 pl-9 text-xs sm:text-sm focus:outline-none focus:border-teal-400 text-slate-100 placeholder-slate-500" />
-        <span class="absolute left-3 top-2.5 text-slate-500 text-xs">🔍</span>
-      </div>
-      <button id="syncBtn" type="button" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs text-teal-400 font-medium transition flex items-center gap-1 shrink-0">
-        <span id="syncIcon">🔄</span>
-        <span id="syncLabel">Segerak</span>
+      <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800/70 transition">
+        Padam Sembang
       </button>
     </div>
 
-    <!-- Senarai Kredensial Utama -->
-    <main class="space-y-2">
-      <div id="recordsContainer" class="space-y-2.5">
-        <p class="text-xs text-slate-500 italic py-6 text-center">Memuatkan data akaun...</p>
+    <!-- Ruangan Mesej -->
+    <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4">
+      <!-- Mesej Aluan -->
+      <div class="flex items-start gap-2.5">
+        <div class="bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed">
+          Assalamualaikum & salam sejahtera! Sila tanya apa sahaja soalan berkaitan maklumat dalam pangkalan data kami.
+        </div>
       </div>
-    </main>
+    </div>
+
+    <!-- Borang Input -->
+    <form id="chat-form" class="p-3 sm:p-4 border-t border-slate-700/60 bg-slate-900/50 flex gap-2">
+      <input 
+        type="text" 
+        id="user-input" 
+        placeholder="Taip soalan anda di sini..." 
+        required
+        autocomplete="off"
+        class="flex-1 bg-slate-800/80 border border-slate-700 text-white text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-sky-500 transition"
+      />
+      <button 
+        type="submit" 
+        id="send-btn"
+        class="bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-medium text-sm px-5 py-3 rounded-xl transition flex items-center gap-2 shrink-0"
+      >
+        <span>Hantar</span>
+      </button>
+    </form>
 
   </div>
 
-  <!-- Butang Terapung (FAB) untuk Skrin Telefon -->
-  <button id="fabBtn" type="button" class="sm:hidden fixed bottom-6 right-6 w-14 h-14 bg-teal-400 hover:bg-teal-500 text-slate-950 text-3xl font-bold rounded-full shadow-2xl flex items-center justify-center transition active:scale-90 z-30">
-    +
-  </button>
+  <script>
+    // Gantikan dengan Web App URL daripada Google Apps Script anda
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcMQ2AKBX291OKGqLvNrhT4Hnu280nJNU6LclZ7BqKOEsXhlFMW31CxO5AS1hiRjZQ/exec";
 
-  <!-- Modal Popup: Tambah & Edit Rekod -->
-  <div id="modalOverlay" style="display: none;" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 items-center justify-center p-4">
-    <div class="bg-slate-800 border border-slate-700 w-full max-w-md rounded-2xl p-5 shadow-2xl relative space-y-4">
-      
-      <div class="flex items-center justify-between border-b border-slate-700/80 pb-3">
-        <h3 id="modalTitle" class="text-base font-semibold text-slate-100">Tambah Kelayakan Baharu</h3>
-        <button type="button" id="closeModalBtn" class="
+    const chatForm = document.getElementById("chat-form");
+    const userInput = document.getElementById("user-input");
+    const chatBox = document.getElementById("chat-box");
+    const sendBtn = document.getElementById("send-btn");
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const question = userInput.value.trim();
+      if (!question) return;
+
+      // Papar mesej pengguna
+      appendMessage(question, "user");
+      userInput.value = "";
+      setLoading(true);
+
+      // Papar indikator menaip
+      const loadingId = appendLoadingBubble();
+
+      try {
+        // Nota: Apps Script memerlukan text/plain untuk mengelakkan isu CORS preflight
+        const response = await fetch(APPS_SCRIPT_URL, {
+          method: "POST",
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({ question: question })
+        });
+
+        const data = await response.json();
+        removeElement(loadingId);
+
+        if (data.status === "success") {
+          appendMessage(data.reply, "ai");
+        } else {
+          appendMessage("Ralat sistem: " + data.message, "ai");
+        }
+      } catch (error) {
+        removeElement(loadingId);
+        appendMessage("Gagal berhubung dengan pelayan. Sila semak sambungan atau URL Apps Script.", "ai");
+      } finally {
+        setLoading(false);
+        userInput.focus();
+      }
+    });
+
+    function appendMessage(text, sender) {
+      const wrapper = document.createElement("div");
+      wrapper.className = sender === "user" ? "flex justify-end" : "flex items-start gap-2.5";
+
+      const bubble = document.createElement("div");
+      if (sender === "user") {
+        bubble.className = "bg-sky-600 text-white px-4 py-3 rounded-2xl rounded-tr-none max-w-[85%] text-sm leading-relaxed shadow-md";
+      } else {
+        bubble.className = "bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed whitespace-pre-line shadow-md";
+      }
+
+      bubble.textContent = text;
+      wrapper.appendChild(bubble);
+      chatBox.appendChild(wrapper);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    function appendLoadingBubble() {
+      const id = "loading-" + Date.now();
+      const wrapper = document.createElement("div");
+      wrapper.id = id;
+      wrapper.className = "flex items-start gap-2.5";
+      wrapper.innerHTML = `
+        <div class="bg-slate-800/90 border border-slate-700/50 text-slate-400 px-4 py-3 rounded-2xl rounded-tl-none text-sm flex items-center gap-1.5">
+          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></span>
+          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
+          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
+        </div>
+      `;
+      chatBox.appendChild(wrapper);
+      chatBox.scrollTop = chatBox.scrollHeight;
+      return id;
+    }
+
+    function removeElement(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function setLoading(isLoading) {
+      userInput.disabled = isLoading;
+      sendBtn.disabled = isLoading;
+    }
+
+    function clearChat() {
+      chatBox.innerHTML = `
+        <div class="flex items-start gap-2.5">
+          <div class="bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed">
+            Sejarah sembang telah dipadam. Sila ajukan soalan baharu.
+          </div>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
