@@ -117,21 +117,31 @@
     });
 
     function appendMessage(text, sender) {
-      const wrapper = document.createElement("div");
-      wrapper.className = sender === "user" ? "flex justify-end" : "flex items-start gap-2.5";
+  const wrapper = document.createElement("div");
+  wrapper.className = sender === "user" ? "flex justify-end" : "flex items-start gap-2.5";
 
-      const bubble = document.createElement("div");
-      if (sender === "user") {
-        bubble.className = "bg-sky-600 text-white px-4 py-3 rounded-2xl rounded-tr-none max-w-[85%] text-sm leading-relaxed shadow-md";
-      } else {
-        bubble.className = "bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed whitespace-pre-line shadow-md";
-      }
+  const bubble = document.createElement("div");
+  if (sender === "user") {
+    bubble.className = "bg-sky-600 text-white px-4 py-3 rounded-2xl rounded-tr-none max-w-[85%] text-sm leading-relaxed shadow-md";
+    bubble.textContent = text;
+  } else {
+    bubble.className = "bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed whitespace-pre-line shadow-md";
+    
+    // Tukar format Markdown (**teks**) kepada tag HTML <strong>teks</strong>
+    let formattedText = text
+      .replace(/&/g, "&")
+      .replace(/</g, "<")
+      .replace(/>/g, ">")
+      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
+      .replace(/^\* /gm, '• '); // Tukar simbol * di awal baris menjadi titik bullet (•)
 
-      bubble.textContent = text;
-      wrapper.appendChild(bubble);
-      chatBox.appendChild(wrapper);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    bubble.innerHTML = formattedText;
+  }
+
+  wrapper.appendChild(bubble);
+  chatBox.appendChild(wrapper);
+  chatBox.scrollTop = chatBox.scrollHeight;
+}
 
     function appendLoadingBubble() {
       const id = "loading-" + Date.now();
