@@ -172,11 +172,22 @@
             document.getElementById('profileUsernameDisplay').textContent = data.profil.username;
             document.getElementById('profileBioDisplay').textContent = data.profil.bio;
             
-            // Jika gambar kosong atau masih URL placeholder/nama lama, guna fail GitHub ./logoprofil.png
-            const gambarProfil = (!data.profil.gambar || data.profil.gambar.includes('placehold.co') || data.profil.gambar === './logo.png') 
-                ? GAMBAR_GITHUB_LALAI 
-                : data.profil.gambar;
-            document.getElementById('profileImgDisplay').src = gambarProfil;
+            // Sentiasa guna ./logoprofil.png kecuali jika anda masukkan URL penuh (https://...) atau laluan .png/.jpg yang sah
+            const imgEl = document.getElementById('profileImgDisplay');
+            const urlDariSheet = (data.profil.gambar || "").trim();
+            const gambarProfil = (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) 
+                ? urlDariSheet 
+                : GAMBAR_GITHUB_LALAI;
+            
+            imgEl.onerror = function() {
+                if (!this.src.endsWith('logoprofil.png')) {
+                    this.src = GAMBAR_GITHUB_LALAI;
+                } else {
+                    this.onerror = null;
+                    this.src = 'https://placehold.co/160x160/679929/ffffff?text=AZ';
+                }
+            };
+            imgEl.src = gambarProfil;
             document.title = `${data.profil.nama} | Pautan Rasmi`;
 
             const container = document.getElementById('linksContainer');
