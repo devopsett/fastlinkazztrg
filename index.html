@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast-Link Azzuha Terengganu</title>
+    <title>Fast-Link | Azzuha Terengganu</title>
     
     <!-- Muat turun Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -19,10 +19,10 @@
             theme: {
                 extend: {
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    animation: { 'fade-in-up': 'fadeInUp 0.5s ease-out forwards' },
+                    animation: { 'fade-in-up': 'fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
                     keyframes: {
                         fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(12px)' },
+                            '0%': { opacity: '0', transform: 'translateY(14px)' },
                             '100%': { opacity: '1', transform: 'translateY(0)' },
                         }
                     }
@@ -30,6 +30,14 @@
             }
         };
     </script>
+    <style>
+        /* Pastikan elemen beranimasi bermula dalam keadaan halimunan supaya tiada kelipan (flicker) */
+        .stagger-item {
+            opacity: 0;
+            animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            will-change: transform, opacity;
+        }
+    </style>
 </head>
 <body class="relative overflow-x-hidden bg-gradient-to-br from-[#eef5e6] via-[#f8faf7] to-[#e6ece4] dark:from-[#121513] dark:via-[#181b19] dark:to-[#1d221e] text-[#464B4F] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-[#679929] selection:text-white transition-colors duration-300">
 
@@ -57,7 +65,7 @@
     <main class="w-full max-w-md mx-auto px-4 py-6 flex-1 flex flex-col items-center">
         
         <!-- Kad Profil Glassmorphism -->
-        <section class="w-full text-center mb-6 p-6 rounded-3xl bg-white/55 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_0_rgba(70,75,79,0.08)] animate-fade-in-up">
+        <section class="w-full text-center mb-6 p-6 rounded-3xl bg-white/55 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_0_rgba(70,75,79,0.08)] stagger-item">
             <div class="relative inline-block mb-4">
                 <img 
                     id="profileImgDisplay"
@@ -72,18 +80,18 @@
             </div>
 
             <h1 id="profileNameDisplay" class="text-xl sm:text-2xl font-bold tracking-tight text-[#464B4F] dark:text-white">
-                Memuatkan...
+                Azzuha Group Travel & Tours
             </h1>
             <p id="profileUsernameDisplay" class="text-xs sm:text-sm font-semibold text-[#679929] dark:text-[#86be3b] mt-0.5">
-                &nbsp;
+                @azzuhatravel
             </p>
             <p id="profileBioDisplay" class="text-sm text-[#464B4F]/85 dark:text-slate-300 mt-3 max-w-xs mx-auto leading-relaxed">
-                &nbsp;
+                Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.
             </p>
         </section>
 
         <!-- Senarai Butang Pautan Utama (Live dari Google Sheets) -->
-        <section id="linksContainer" class="w-full space-y-3.5 animate-fade-in-up" style="animation-delay: 0.1s;"></section>
+        <section id="linksContainer" class="w-full space-y-3.5"></section>
 
     </main>
 
@@ -95,7 +103,7 @@
     </footer>
 
     <!-- Notifikasi Toast -->
-    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-[#464B4F] dark:bg-white text-white dark:text-[#464B4F] text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-2 z-50 px-4 py-2.5 rounded-full bg-[#464B4F] dark:bg-white text-white dark:text-[#464B4F] text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#86be3b] dark:text-[#679929]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="toastMessage">Pautan berjaya disalin!</span>
     </div>
@@ -103,7 +111,7 @@
     <script>
         // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
-
+        let rekodDataSemasa = "";
         const pustakaIkon = {
             whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
             web: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
@@ -114,58 +122,67 @@
         };
 
         function paparkanHalaman(data) {
-            if (!data || !data.profil) return;
+            if (!data) return;
 
-            document.getElementById('profileNameDisplay').textContent = data.profil.nama || "";
-            document.getElementById('footerNameDisplay').textContent = data.profil.nama || "";
-            document.getElementById('profileUsernameDisplay').textContent = data.profil.username || "";
-            document.getElementById('profileBioDisplay').textContent = data.profil.bio || "";
-            
-            const urlDariSheet = (data.profil.gambar || "").trim();
-            if (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) {
-                document.getElementById('profileImgDisplay').src = urlDariSheet;
+            if (data.profil) {
+                if (data.profil.nama) {
+                    document.getElementById('profileNameDisplay').textContent = data.profil.nama;
+                    document.getElementById('footerNameDisplay').textContent = data.profil.nama;
+                }
+                if (data.profil.username) {
+                    document.getElementById('profileUsernameDisplay').textContent = data.profil.username;
+                }
+                if (data.profil.bio) {
+                    document.getElementById('profileBioDisplay').textContent = data.profil.bio;
+                }
+                
+                const urlDariSheet = (data.profil.gambar || "").trim();
+                if (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) {
+                    document.getElementById('profileImgDisplay').src = urlDariSheet;
+                }
             }
 
-            if (data.profil.nama) {
-                document.title = `${data.profil.nama} | Pautan Rasmi`;
-            }
+            document.title = "Fast-Link | Azzuha Terengganu";
 
             const container = document.getElementById('linksContainer');
-            const senarai = data.pautan || [];
-
-            if (senarai.length === 0) {
-                container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Tiada pautan dipaparkan buat masa ini.</div>`;
+            if (!data.pautan || data.pautan.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/80 dark:text-slate-300 stagger-item">Tiada pautan dipaparkan buat masa ini.</div>`;
                 return;
             }
 
-            container.innerHTML = senarai.map(item => {
-                const kelasButang = item.sorotan
-                    ? "bg-[#679929]/90 hover:bg-[#679929] backdrop-blur-xl text-white border-white/40 shadow-[0_8px_25px_rgba(103,153,41,0.3)] hover:shadow-[0_10px_30px_rgba(103,153,41,0.45)]"
-                    : "bg-white/60 dark:bg-white/[0.07] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl text-[#464B4F] dark:text-slate-100 border-white/80 dark:border-white/15 hover:border-[#679929]/60 dark:hover:border-[#86be3b]/60 shadow-[0_8px_24px_rgba(70,75,79,0.06)]";
+            container.innerHTML = data.pautan.map((item, idx) => {
+                const ikonHtml = pustakaIkon[item.jenisIkon] || pustakaIkon.web;
+                const delayMs = (idx + 1) * 65;
 
-                const kelasIkon = item.sorotan
-                    ? "bg-white/25 text-white border border-white/30"
-                    : "bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] border border-[#679929]/20 group-hover:bg-[#679929] group-hover:text-white";
-
-                const kelasSubtajuk = item.sorotan
-                    ? "text-white/90"
-                    : "text-[#464B4F]/75 dark:text-slate-300/80";
-
-                const svgIkon = pustakaIkon[item.jenisIkon] || pustakaIkon.web;
+                if (item.sorotan) {
+                    return `
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="animation-delay: ${delayMs}ms"
+                           class="stagger-item group relative flex items-center justify-between w-full p-4 rounded-2xl bg-[#679929]/90 hover:bg-[#558021] backdrop-blur-xl text-white border border-white/40 shadow-[0_8px_24px_rgba(103,153,41,0.3)] hover:shadow-[0_12px_28px_rgba(103,153,41,0.4)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
+                            <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0">
+                                ${ikonHtml}
+                            </div>
+                            <div class="flex-1 text-center px-3">
+                                <span class="block font-semibold text-sm sm:text-base">${item.tajuk}</span>
+                                ${item.subtajuk ? `<span class="block text-xs text-white/90 mt-0.5">${item.subtajuk}</span>` : ''}
+                            </div>
+                            <div class="w-8 flex justify-end opacity-80 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                            </div>
+                        </a>
+                    `;
+                }
 
                 return `
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
-                       class="group flex items-center justify-between w-full p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${kelasButang}">
-                        <div class="flex items-center gap-3.5 min-w-0">
-                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${kelasIkon}">
-                                ${svgIkon}
-                            </div>
-                            <div class="text-left truncate">
-                                <div class="text-sm font-semibold truncate">${item.tajuk}</div>
-                                ${item.subtajuk ? `<div class="text-xs truncate mt-0.5 ${kelasSubtajuk}">${item.subtajuk}</div>` : ''}
-                            </div>
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="animation-delay: ${delayMs}ms"
+                       class="stagger-item group flex items-center justify-between w-full p-4 rounded-2xl bg-white/60 dark:bg-white/[0.06] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl border border-white/80 dark:border-white/15 hover:border-[#679929]/50 dark:hover:border-[#86be3b]/50 shadow-[0_4px_20px_rgba(70,75,79,0.05)] hover:shadow-[0_8px_28px_rgba(103,153,41,0.12)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
+                        <div class="w-10 h-10 rounded-xl bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] flex items-center justify-center shrink-0 group-hover:bg-[#679929] group-hover:text-white transition-colors">
+                            ${ikonHtml}
                         </div>
-                        <div class="pl-2 shrink-0 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                        <div class="flex-1 text-center px-3">
+                            <span class="block font-semibold text-sm sm:text-base text-[#464B4F] dark:text-slate-100">${item.tajuk}</span>
+                            ${item.subtajuk ? `<span class="block text-xs text-[#464B4F]/75 dark:text-slate-400 mt-0.5">${item.subtajuk}</span>` : ''}
+                        </div>
+                        <div class="w-8 flex justify-end text-[#464B4F]/50 dark:text-slate-400 group-hover:text-[#679929] dark:group-hover:text-[#86be3b] group-hover:translate-x-0.5 transition-all">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
                         </div>
                     </a>
@@ -173,45 +190,61 @@
             }).join('');
         }
 
-        function paparkanSkeleton() {
-            const container = document.getElementById('linksContainer');
-            container.innerHTML = [1, 2, 3].map(() => `
-                <div class="w-full h-16 rounded-2xl bg-white/40 dark:bg-white/[0.05] backdrop-blur-md border border-white/60 dark:border-white/10 animate-pulse"></div>
-            `).join('');
-        }
-
         async function muatDataLive() {
             const container = document.getElementById('linksContainer');
             const cacheTempatan = localStorage.getItem('azzuha_live_cache');
 
             if (cacheTempatan) {
-                paparkanHalaman(JSON.parse(cacheTempatan));
+                try {
+                    rekodDataSemasa = cacheTempatan;
+                    paparkanHalaman(JSON.parse(cacheTempatan));
+                } catch (e) {}
             } else {
                 container.innerHTML = [1, 2, 3].map(() => `
-                    <div class="w-full h-16 rounded-2xl bg-white/40 dark:bg-white/[0.05] backdrop-blur-md border border-white/60 dark:border-white/10 animate-pulse"></div>
+                    <div class="w-full h-16 rounded-2xl bg-white/45 dark:bg-white/[0.05] backdrop-blur-md border border-white/60 dark:border-white/10 animate-pulse"></div>
                 `).join('');
             }
 
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
-                const json = await res.json();
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now(), {
+                    method: "GET",
+                    redirect: "follow"
+                });
+                if (!res.ok) throw new Error("HTTP " + res.status);
+                const text = await res.text();
+                let json;
+                try {
+                    json = JSON.parse(text);
+                } catch (parseErr) {
+                    throw new Error("Respons Apps Script bukan JSON. Sila pastikan Deploy > Who has access ditetapkan kepada 'Anyone'.");
+                }
+
                 if (json.status === "success" && json.data) {
-                    localStorage.setItem('azzuha_live_cache', JSON.stringify(json.data));
-                    paparkanHalaman(json.data);
+                    const dataBaharuStr = JSON.stringify(json.data);
+                    if (dataBaharuStr !== rekodDataSemasa) {
+                        rekodDataSemasa = dataBaharuStr;
+                        localStorage.setItem('azzuha_live_cache', dataBaharuStr);
+                        paparkanHalaman(json.data);
+                    }
+                } else {
+                    throw new Error(json.message || "Struktur data Google Sheets tidak sepadan.");
                 }
             } catch (err) {
+                console.error("Ralat Google Sheets:", err);
                 if (!cacheTempatan) {
-                    container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Gagal memuatkan data. Sila segar semula halaman.</div>`;
+                    container.innerHTML = `<div class="p-5 text-center rounded-2xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-md border border-rose-300/60 dark:border-rose-500/30 text-xs text-[#464B4F] dark:text-slate-200 space-y-1.5 stagger-item">
+                        <p class="font-semibold text-rose-600 dark:text-rose-400">Tidak dapat menarik pautan dari Google Sheets</p>
+                        <p class="opacity-80">${err.message}</p>
+                    </div>`;
                 }
             }
         }
 
-        function inisialisasiTema() {
-            const htmlEl = document.documentElement;
-            const savedTheme = localStorage.getItem('theme');
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+            const htmlEl = document.documentElement;
+            if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
             }
 
@@ -219,36 +252,32 @@
                 htmlEl.classList.toggle('dark');
                 localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
             });
-        }
 
-        function salinPautanHalaman() {
-            const urlSemasa = window.location.href;
-            if (navigator.share) {
-                navigator.share({ title: document.title, url: urlSemasa }).catch(() => {});
-                return;
-            }
-            const tempInput = document.createElement('input');
-            tempInput.value = urlSemasa;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            try {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            let toastTimeout;
+
+            document.getElementById('shareBtn').addEventListener('click', () => {
+                const tempInput = document.createElement('input');
+                tempInput.value = window.location.href;
+                document.body.appendChild(tempInput);
+                tempInput.select();
                 document.execCommand('copy');
-                const toast = document.getElementById('toastNotification');
-                toast.classList.remove('opacity-0', 'pointer-events-none');
-                toast.classList.add('opacity-100', '-translate-y-1');
-                setTimeout(() => {
-                    toast.classList.remove('opacity-100', '-translate-y-1');
-                    toast.classList.add('opacity-0', 'pointer-events-none');
-                }, 2500);
-            } catch (err) {}
-            document.body.removeChild(tempInput);
-        }
+                document.body.removeChild(tempInput);
 
-        document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('currentYear').textContent = new Date().getFullYear();
-            inisialisasiTema();
+                toastMsg.textContent = 'Pautan profil berjaya disalin!';
+                clearTimeout(toastTimeout);
+                toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+                toast.classList.add('opacity-100', 'translate-y-0');
+
+                toastTimeout = setTimeout(() => {
+                    toast.classList.remove('opacity-100', 'translate-y-0');
+                    toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+                }, 2500);
+            });
+
             muatDataLive();
-            document.getElementById('shareBtn').addEventListener('click', salinPautanHalaman);
+            setInterval(muatDataLive, 20000);
         });
     </script>
 </body>
