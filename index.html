@@ -79,13 +79,13 @@
             </div>
 
             <h1 id="profileNameDisplay" class="text-xl sm:text-2xl font-bold tracking-tight text-[#464B4F] dark:text-white">
-                Azzuha Group Travel & Tours
+                Memuatkan...
             </h1>
             <p id="profileUsernameDisplay" class="text-xs sm:text-sm font-semibold text-[#679929] dark:text-[#86be3b] mt-0.5">
-                @azzuhatravel
+                &nbsp;
             </p>
             <p id="profileBioDisplay" class="text-sm text-[#464B4F]/85 dark:text-slate-300 mt-3 max-w-xs mx-auto leading-relaxed">
-                Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.
+                &nbsp;
             </p>
 
             <!-- Ikon Media Sosial -->
@@ -139,40 +139,15 @@
             star: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
         };
 
-        const dataSandaran = {
-            profil: {
-                nama: "Azzuha Group Travel & Tours",
-                username: "@azzuhatravel",
-                bio: "Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.",
-                gambar: GAMBAR_GITHUB_LALAI
-            },
-            pautan: [
-                {
-                    tajuk: "Hubungi Terus di WhatsApp",
-                    subtajuk: "Respon pantas waktu bekerja",
-                    url: "https://wa.me/60123456789?text=Hai%2C%20saya%20lihat%20pautan%20dari%20profil%20anda",
-                    sorotan: true,
-                    jenisIkon: "whatsapp"
-                },
-                {
-                    tajuk: "Laman Web & Portfolio Rasmi",
-                    subtajuk: "Lihat pakej dan maklumat terkini",
-                    url: "https://contohdomain.com",
-                    sorotan: false,
-                    jenisIkon: "web"
-                }
-            ]
-        };
-
         function paparkanHalaman(data) {
             if (!data || !data.profil) return;
 
-            document.getElementById('profileNameDisplay').textContent = data.profil.nama;
-            document.getElementById('footerNameDisplay').textContent = data.profil.nama;
-            document.getElementById('profileUsernameDisplay').textContent = data.profil.username;
-            document.getElementById('profileBioDisplay').textContent = data.profil.bio;
+            document.getElementById('profileNameDisplay').textContent = data.profil.nama || "";
+            document.getElementById('footerNameDisplay').textContent = data.profil.nama || "";
+            document.getElementById('profileUsernameDisplay').textContent = data.profil.username || "";
+            document.getElementById('profileBioDisplay').textContent = data.profil.bio || "";
             
-            // Sentiasa guna ./logoprofil.png kecuali jika anda masukkan URL penuh (https://...) atau laluan .png/.jpg yang sah
+            // Sentiasa guna ./logoprofil.png kecuali jika anda masukkan URL penuh (https://...)
             const imgEl = document.getElementById('profileImgDisplay');
             const urlDariSheet = (data.profil.gambar || "").trim();
             const gambarProfil = (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) 
@@ -188,10 +163,19 @@
                 }
             };
             imgEl.src = gambarProfil;
-            document.title = `${data.profil.nama} | Pautan Rasmi`;
+            if (data.profil.nama) {
+                document.title = `${data.profil.nama} | Pautan Rasmi`;
+            }
 
             const container = document.getElementById('linksContainer');
-            container.innerHTML = (data.pautan || []).map(item => {
+            const senarai = data.pautan || [];
+
+            if (senarai.length === 0) {
+                container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Tiada pautan dipaparkan buat masa ini.</div>`;
+                return;
+            }
+
+            container.innerHTML = senarai.map(item => {
                 const kelasButang = item.sorotan
                     ? "bg-[#679929]/90 hover:bg-[#679929] backdrop-blur-xl text-white border-white/40 shadow-[0_8px_25px_rgba(103,153,41,0.3)] hover:shadow-[0_10px_30px_rgba(103,153,41,0.45)]"
                     : "bg-white/60 dark:bg-white/[0.07] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl text-[#464B4F] dark:text-slate-100 border-white/80 dark:border-white/15 hover:border-[#679929]/60 dark:hover:border-[#86be3b]/60 shadow-[0_8px_24px_rgba(70,75,79,0.06)]";
@@ -249,7 +233,9 @@
                     paparkanHalaman(json.data);
                 }
             } catch (err) {
-                if (!cacheTempatan) paparkanHalaman(dataSandaran);
+                if (!cacheTempatan) {
+                    document.getElementById('linksContainer').innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Gagal memuatkan data daripada Google Sheets. Sila segar semula halaman.</div>`;
+                }
             }
         }
 
