@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azzuha Group Travel & Tours | Pautan Rasmi</title>
+    <title>Fast-Link Azzuha Terengganu</title>
     
     <!-- Muat turun Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,13 +18,6 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    colors: {
-                        brand: {
-                            green: '#679929',
-                            greenHover: '#558021',
-                            charcoal: '#464B4F',
-                        }
-                    },
                     fontFamily: { sans: ['Inter', 'sans-serif'] },
                     animation: { 'fade-in-up': 'fadeInUp 0.5s ease-out forwards' },
                     keyframes: {
@@ -97,7 +90,7 @@
     <!-- Pengaki -->
     <footer class="w-full max-w-md mx-auto px-4 py-6 text-center">
         <p class="text-xs text-[#464B4F]/70 dark:text-slate-500">
-            &copy; <span id="currentYear"></span> <span id="footerNameDisplay">Azzuha Group Travel & Tours</span>.
+            &copy; <span id="currentYear"></span> <span id="footerNameDisplay">Azzuha Group Travel & Tours</span> Terengganu.
         </p>
     </footer>
 
@@ -110,9 +103,6 @@
     <script>
         // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
-
-        // Gambar lalai terus dari repositori GitHub
-        const GAMBAR_GITHUB_LALAI = "./logoprofil.png";
 
         const pustakaIkon = {
             whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
@@ -131,22 +121,11 @@
             document.getElementById('profileUsernameDisplay').textContent = data.profil.username || "";
             document.getElementById('profileBioDisplay').textContent = data.profil.bio || "";
             
-            // Sentiasa guna ./logoprofil.png kecuali jika anda masukkan URL penuh (https://...)
-            const imgEl = document.getElementById('profileImgDisplay');
             const urlDariSheet = (data.profil.gambar || "").trim();
-            const gambarProfil = (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) 
-                ? urlDariSheet 
-                : GAMBAR_GITHUB_LALAI;
-            
-            imgEl.onerror = function() {
-                if (!this.src.endsWith('logoprofil.png')) {
-                    this.src = GAMBAR_GITHUB_LALAI;
-                } else {
-                    this.onerror = null;
-                    this.src = 'https://placehold.co/160x160/679929/ffffff?text=AZ';
-                }
-            };
-            imgEl.src = gambarProfil;
+            if (urlDariSheet.startsWith('http://') || urlDariSheet.startsWith('https://')) {
+                document.getElementById('profileImgDisplay').src = urlDariSheet;
+            }
+
             if (data.profil.nama) {
                 document.title = `${data.profil.nama} | Pautan Rasmi`;
             }
@@ -202,15 +181,19 @@
         }
 
         async function muatDataLive() {
+            const container = document.getElementById('linksContainer');
             const cacheTempatan = localStorage.getItem('azzuha_live_cache');
+
             if (cacheTempatan) {
                 paparkanHalaman(JSON.parse(cacheTempatan));
             } else {
-                paparkanSkeleton();
+                container.innerHTML = [1, 2, 3].map(() => `
+                    <div class="w-full h-16 rounded-2xl bg-white/40 dark:bg-white/[0.05] backdrop-blur-md border border-white/60 dark:border-white/10 animate-pulse"></div>
+                `).join('');
             }
 
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + new Date().getTime());
+                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + Date.now());
                 const json = await res.json();
                 if (json.status === "success" && json.data) {
                     localStorage.setItem('azzuha_live_cache', JSON.stringify(json.data));
@@ -218,7 +201,7 @@
                 }
             } catch (err) {
                 if (!cacheTempatan) {
-                    document.getElementById('linksContainer').innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Gagal memuatkan data daripada Google Sheets. Sila segar semula halaman.</div>`;
+                    container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/75 dark:text-slate-300">Gagal memuatkan data. Sila segar semula halaman.</div>`;
                 }
             }
         }
