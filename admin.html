@@ -142,8 +142,8 @@
                         <textarea id="profBioInput" rows="3" class="w-full px-3 py-2 rounded-xl text-sm bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]"></textarea>
                     </div>
                     <div>
-                        <label class="block text-xs font-medium mb-1">URL Gambar Profil / Logo</label>
-                        <input type="url" id="profImgInput" class="w-full px-3 py-2 rounded-xl text-sm bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
+                        <label class="block text-xs font-medium mb-1">Fail / URL Gambar Profil (Lalai: ./logoprofil.png)</label>
+                        <input type="text" id="profImgInput" placeholder="./logoprofil.png" class="w-full px-3 py-2 rounded-xl text-sm bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
                     </div>
                     <button type="button" id="saveProfileBtn" class="w-full py-2.5 px-4 rounded-xl bg-[#679929] hover:bg-[#558021] text-white text-xs font-semibold shadow-sm transition-all">
                         Simpan Profil
@@ -169,7 +169,7 @@
                 nama: "Azzuha Group Travel & Tours",
                 username: "@azzuhatravel",
                 bio: "Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.",
-                gambar: "https://placehold.co/160x160/679929/ffffff?text=AZ"
+                gambar: "./logoprofil.png"
             },
             pautan: [
                 {
@@ -225,7 +225,7 @@
             document.getElementById('profNameInput').value = appData.profil.nama || "";
             document.getElementById('profUserInput').value = appData.profil.username || "";
             document.getElementById('profBioInput').value = appData.profil.bio || "";
-            document.getElementById('profImgInput').value = appData.profil.gambar || "";
+            document.getElementById('profImgInput').value = (appData.profil.gambar && appData.profil.gambar !== './logo.png') ? appData.profil.gambar : "./logoprofil.png";
         }
 
         async function muatDataDariSheet() {
@@ -337,9 +337,8 @@
             document.getElementById('saveLinkBtn').textContent = 'Kemas Kini Pautan';
             document.getElementById('cancelEditBtn').classList.remove('hidden');
         };
-// ... existing code ... -->
+
         document.addEventListener('DOMContentLoaded', () => {
-            // Tema
             const htmlEl = document.documentElement;
             if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
@@ -349,10 +348,8 @@
                 localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
             });
 
-            // Tarik data terkini dari Google Sheets
             muatDataDariSheet();
 
-            // Navigasi Tab
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
                     document.querySelectorAll('.admin-tab').forEach(t => {
@@ -368,7 +365,6 @@
                 });
             });
 
-            // Hantar Borang Pautan
             document.getElementById('linkForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const idx = parseInt(document.getElementById('editIndex').value, 10);
@@ -393,12 +389,11 @@
 
             document.getElementById('cancelEditBtn').addEventListener('click', resetBorangPautan);
 
-            // Simpan Profil
             document.getElementById('saveProfileBtn').addEventListener('click', () => {
                 appData.profil.nama = document.getElementById('profNameInput').value.trim() || "Azzuha Group Travel & Tours";
                 appData.profil.username = document.getElementById('profUserInput').value.trim() || "@azzuhatravel";
                 appData.profil.bio = document.getElementById('profBioInput').value.trim();
-                appData.profil.gambar = document.getElementById('profImgInput').value.trim() || dataAsal.profil.gambar;
+                appData.profil.gambar = document.getElementById('profImgInput').value.trim() || "./logoprofil.png";
                 simpanKeGoogleSheets('Maklumat profil disimpan!');
             });
         });
