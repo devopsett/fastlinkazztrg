@@ -44,41 +44,14 @@
 
     <main class="w-full max-w-2xl mx-auto px-4 py-8 flex-1 flex flex-col">
         <!-- Kepala Halaman Admin -->
-        <div class="flex flex-wrap items-center justify-between gap-4 p-5 mb-6 rounded-3xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_rgba(70,75,79,0.06)]">
+        <div class="flex items-center justify-between gap-4 p-5 mb-6 rounded-3xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_rgba(70,75,79,0.06)]">
             <div>
-                <div class="flex items-center gap-2 mb-1">
-                    <span class="inline-block px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-[#679929]/15 text-[#679929] dark:text-[#86be3b] border border-[#679929]/20">admin.html</span>
-                    <span id="syncStatusBadge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/20">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                        Menyambung...
-                    </span>
-                </div>
-                <h1 class="text-xl sm:text-2xl font-bold text-[#464B4F] dark:text-white">Panel Admin Live (Google Sheets)</h1>
-                <p class="text-xs text-[#464B4F]/75 dark:text-slate-300">Segala perubahan disimpan terus ke Google Sheets & dipaparkan secara langsung di <code class="text-[#679929] dark:text-[#86be3b] font-semibold">index.html</code></p>
+                <h1 class="text-xl sm:text-2xl font-bold text-[#464B4F] dark:text-white">Panel Admin</h1>
+                <p class="text-xs text-[#464B4F]/75 dark:text-slate-300 mt-0.5">Urus senarai pautan dan maklumat profil anda</p>
             </div>
-            <div class="flex items-center gap-2">
-                <button id="themeToggleAdmin" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                </button>
-                <a href="index.html" target="_blank" class="px-4 py-2.5 rounded-xl bg-[#464B4F]/90 hover:bg-[#464B4F] dark:bg-white/90 dark:hover:bg-white backdrop-blur-md text-white dark:text-[#464B4F] text-xs font-semibold shadow-sm transition-all flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" x2="21" y1="14" y2="3"/></svg>
-                    <span>Lihat Live index.html</span>
-                </a>
-            </div>
-        </div>
-
-        <!-- Bar Keselamatan PIN & Butang Simpan Live -->
-        <div class="p-4 mb-6 rounded-2xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-sm flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3">
-            <div class="flex items-center gap-2.5 flex-1">
-                <div class="p-2 rounded-xl bg-[#679929]/15 text-[#679929] dark:text-[#86be3b]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                </div>
-                <input type="password" id="adminPinInput" placeholder="Masukkan PIN Admin (cth: azzuha123)" class="w-full px-3 py-2 rounded-xl text-xs bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
-            </div>
-            <button type="button" id="publishLiveBtn" class="px-5 py-2.5 rounded-xl bg-[#679929] hover:bg-[#558021] disabled:opacity-50 text-white text-xs font-semibold shadow-md transition-all active:scale-[0.98] flex items-center justify-center gap-2 shrink-0">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
-                <span id="publishLiveText">Simpan & Terbitkan Live</span>
+            <button id="themeToggleAdmin" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
             </button>
         </div>
 
@@ -91,9 +64,6 @@
                 </button>
                 <button type="button" data-tab="tabProfil" class="admin-tab pb-3 border-b-2 border-transparent text-[#464B4F]/70 dark:text-slate-400 hover:text-[#464B4F] dark:hover:text-slate-200">
                     Maklumat Profil
-                </button>
-                <button type="button" data-tab="tabPanduan" class="admin-tab pb-3 border-b-2 border-transparent text-[#464B4F]/70 dark:text-slate-400 hover:text-[#464B4F] dark:hover:text-slate-200">
-                    Status & Tetapan
                 </button>
             </div>
 
@@ -143,7 +113,7 @@
 
                         <div class="flex gap-2 pt-2">
                             <button type="submit" id="saveLinkBtn" class="flex-1 py-2.5 px-4 rounded-xl bg-[#679929] hover:bg-[#558021] text-white text-xs font-semibold shadow-sm transition-all">
-                                + Tambah & Simpan ke Sheet
+                                + Tambah Pautan
                             </button>
                             <button type="button" id="cancelEditBtn" class="hidden py-2.5 px-3 rounded-xl bg-white/70 dark:bg-white/10 text-xs font-medium hover:bg-white dark:hover:bg-white/20 transition-colors">
                                 Batal
@@ -176,29 +146,8 @@
                         <input type="url" id="profImgInput" class="w-full px-3 py-2 rounded-xl text-sm bg-white/80 dark:bg-white/10 border border-white/80 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
                     </div>
                     <button type="button" id="saveProfileBtn" class="w-full py-2.5 px-4 rounded-xl bg-[#679929] hover:bg-[#558021] text-white text-xs font-semibold shadow-sm transition-all">
-                        Simpan Profil ke Google Sheets
+                        Simpan Profil
                     </button>
-                </div>
-
-                <!-- TAB 3: STATUS & TETAPAN GOOGLE SHEETS -->
-                <div id="tabPanduan" class="admin-tab-content hidden space-y-4">
-                    <div class="p-4 rounded-2xl bg-[#679929]/10 dark:bg-[#679929]/20 border border-[#679929]/30 text-xs text-[#464B4F] dark:text-slate-200 space-y-2 leading-relaxed">
-                        <p class="font-bold text-[#679929] dark:text-[#86be3b]">Bagaimana Sistem Live Ini Berfungsi:</p>
-                        <ul class="list-disc pl-4 space-y-1">
-                            <li>Setiap kali anda menambah, menyunting, menyusun semula, atau memadam pautan, sistem akan terus menghantar data terkini ke tab <b>DatabasePautan</b> dalam Google Sheets anda.</li>
-                            <li>Pastikan ruangan <b>PIN Admin</b> di bahagian atas diisi dengan betul (sepadan dengan <code class="bg-[#679929]/20 px-1 rounded font-semibold">PIN_ADMIN</code> di dalam <code class="bg-[#679929]/20 px-1 rounded font-semibold">Code.gs</code>).</li>
-                            <li>Pelawat yang membuka <code class="bg-[#679929]/20 px-1 rounded font-semibold">index.html</code> akan terus melihat perubahan baharu secara automatik tanpa perlu menyentuh fail di GitHub lagi.</li>
-                        </ul>
-                    </div>
-
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="button" id="reloadFromSheetBtn" class="flex-1 py-2.5 px-4 rounded-xl bg-white/75 dark:bg-white/10 hover:bg-white dark:hover:bg-white/20 border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 text-xs font-semibold shadow-sm transition-all">
-                            Muat Semula Data dari Sheet
-                        </button>
-                        <button type="button" id="resetDefaultBtn" class="flex-1 py-2.5 px-4 rounded-xl border border-red-200 dark:border-red-900/60 text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/30 text-xs font-medium transition-colors">
-                            Tetapkan Semula ke Data Asal
-                        </button>
-                    </div>
                 </div>
 
             </div>
@@ -212,10 +161,8 @@
     </div>
 
     <script>
-        // =====================================================================
-        // TAMPAL URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI:
+        // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
-        // =====================================================================
 
         const dataAsal = {
             profil: {
@@ -249,20 +196,29 @@
             ]
         };
 
+        const pustakaIkon = {
+            whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+            web: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+            shop: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+            download: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>`,
+            telegram: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+            star: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+        };
+
         let appData = JSON.parse(JSON.stringify(dataAsal));
 
-        function kemasKiniBadgeStatus(status, teks) {
-            const badge = document.getElementById('syncStatusBadge');
-            if (status === 'online') {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#679929]/15 text-[#679929] dark:text-[#86be3b] border border-[#679929]/25";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-[#679929]"></span>${teks}`;
-            } else if (status === 'saving') {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-amber-500/15 text-amber-700 dark:text-amber-300 border border-amber-500/20";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-ping"></span>${teks}`;
-            } else {
-                badge.className = "inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-red-500/15 text-red-600 dark:text-red-400 border border-red-500/20";
-                badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>${teks}`;
-            }
+        function tunjukNotifikasi(mesej, isError = false) {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+            toastMsg.textContent = mesej;
+            toastIcon.style.color = isError ? '#f87171' : '#86be3b';
+            toast.classList.remove('opacity-0', 'pointer-events-none');
+            toast.classList.add('opacity-100', '-translate-y-1');
+            setTimeout(() => {
+                toast.classList.remove('opacity-100', '-translate-y-1');
+                toast.classList.add('opacity-0', 'pointer-events-none');
+            }, 2500);
         }
 
         function isiBorangProfil() {
@@ -273,122 +229,85 @@
         }
 
         async function muatDataDariSheet() {
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("TAMPAL_URL_WEB_APP")) {
-                kemasKiniBadgeStatus('error', 'URL Script Belum Diisi');
-                isiBorangProfil();
-                renderAdminList();
-                return;
-            }
-
-            kemasKiniBadgeStatus('saving', 'Memuatkan data...');
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + new Date().getTime());
                 const json = await res.json();
                 if (json.status === "success" && json.data) {
                     appData = json.data;
                     localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
-                    isiBorangProfil();
-                    renderAdminList();
-                    kemasKiniBadgeStatus('online', 'Tersambung ke Google Sheets');
-                } else {
-                    kemasKiniBadgeStatus('error', 'Ralat baca data');
                 }
-            } catch (err) {
-                kemasKiniBadgeStatus('error', 'Gagal sambung ke Sheet');
-                isiBorangProfil();
-                renderAdminList();
-            }
+            } catch (err) {}
+            isiBorangProfil();
+            renderAdminList();
         }
 
-        async function simpanKeGoogleSheets(mesejBerjaya = 'Disimpan terus ke Google Sheets!') {
+        async function simpanKeGoogleSheets(mesejBerjaya = 'Perubahan berjaya disimpan!') {
             renderAdminList();
-
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("TAMPAL_URL_WEB_APP")) {
-                tunjukNotifikasi('Sila masukkan GOOGLE_SCRIPT_URL di dalam kod terlebih dahulu.', true);
-                return;
-            }
-
-            const pin = document.getElementById('adminPinInput').value.trim();
-            if (!pin) {
-                tunjukNotifikasi('Sila masukkan PIN Admin di bahagian atas untuk simpan!', true);
-                document.getElementById('adminPinInput').focus();
-                return;
-            }
-
-            localStorage.setItem('azzuha_admin_pin', pin);
-            const btn = document.getElementById('publishLiveBtn');
-            const btnText = document.getElementById('publishLiveText');
-            btn.disabled = true;
-            btnText.textContent = 'Menyimpan ke Sheet...';
-            kemasKiniBadgeStatus('saving', 'Menyimpan...');
 
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({
-                        pin: pin,
-                        data: appData
-                    })
+                    body: JSON.stringify({ data: appData })
                 });
                 const json = await res.json();
 
                 if (json.status === 'success') {
                     localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
-                    kemasKiniBadgeStatus('online', 'Tersambung & Dikemas Kini');
                     tunjukNotifikasi(mesejBerjaya, false);
                 } else {
-                    kemasKiniBadgeStatus('error', json.message || 'PIN Salah');
-                    tunjukNotifikasi(json.message || 'Gagal simpan. Semak PIN Admin anda.', true);
+                    tunjukNotifikasi('Gagal menyimpan perubahan.', true);
                 }
             } catch (err) {
-                kemasKiniBadgeStatus('error', 'Ralat Rangkaian');
-                tunjukNotifikasi('Gagal berhubung dengan Google Sheets.', true);
-            } finally {
-                btn.disabled = false;
-                btnText.textContent = 'Simpan & Terbitkan Live';
+                tunjukNotifikasi('Ralat sambungan semasa menyimpan.', true);
             }
         }
 
         function renderAdminList() {
-            const adminList = document.getElementById('adminLinksList');
+            const listEl = document.getElementById('adminLinksList');
             if (!appData.pautan || appData.pautan.length === 0) {
-                adminList.innerHTML = `<p class="text-xs text-slate-400 text-center py-4">Tiada pautan. Sila tambah pautan di atas.</p>`;
+                listEl.innerHTML = `<p class="text-xs text-[#464B4F]/60 dark:text-slate-400 text-center py-6 bg-white/40 dark:bg-white/[0.03] rounded-2xl border border-white/60 dark:border-white/10">Tiada pautan lagi. Tambah pautan menggunakan borang di atas.</p>`;
                 return;
             }
 
-            adminList.innerHTML = appData.pautan.map((item, idx) => `
-                <div class="p-3 rounded-xl bg-white/65 dark:bg-white/[0.07] backdrop-blur-md border border-white/80 dark:border-white/15 flex items-center justify-between gap-2 shadow-sm">
-                    <div class="min-w-0 flex-1">
-                        <div class="flex items-center gap-1.5">
-                            <span class="text-xs font-bold truncate text-[#464B4F] dark:text-slate-100">${item.tajuk}</span>
-                            ${item.sorotan ? `<span class="px-1.5 py-0.5 text-[9px] font-bold bg-[#679929]/15 text-[#679929] dark:text-[#86be3b] rounded">Utama</span>` : ''}
+            listEl.innerHTML = appData.pautan.map((item, idx) => `
+                <div class="flex items-center justify-between gap-3 p-3 rounded-2xl bg-white/60 dark:bg-white/[0.05] border border-white/80 dark:border-white/10 shadow-sm">
+                    <div class="flex items-center gap-2.5 min-w-0">
+                        <div class="w-8 h-8 rounded-xl flex items-center justify-center shrink-0 ${item.sorotan ? 'bg-[#679929] text-white' : 'bg-[#679929]/15 text-[#679929] dark:text-[#86be3b]'}">
+                            ${pustakaIkon[item.jenisIkon] || pustakaIkon.web}
                         </div>
-                        <p class="text-[11px] text-[#464B4F]/65 dark:text-slate-300/75 truncate">${item.url}</p>
+                        <div class="min-w-0">
+                            <div class="text-xs font-semibold truncate flex items-center gap-1.5">
+                                <span class="truncate">${item.tajuk}</span>
+                                ${item.sorotan ? '<span class="px-1.5 py-0.5 text-[10px] rounded-md bg-[#679929]/15 text-[#679929] dark:text-[#86be3b] font-bold shrink-0">Utama</span>' : ''}
+                            </div>
+                            <div class="text-[11px] text-[#464B4F]/65 dark:text-slate-400 truncate">${item.url}</div>
+                        </div>
                     </div>
                     <div class="flex items-center gap-1 shrink-0">
-                        <button type="button" onclick="gerakPautan(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Naikkan" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 text-[#464B4F] dark:text-slate-300">
+                        <button type="button" onclick="gerakPautan(${idx}, -1)" ${idx === 0 ? 'disabled' : ''} title="Naik atas" class="p-1.5 rounded-lg hover:bg-white/80 dark:hover:bg-white/10 disabled:opacity-30 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="18 15 12 9 6 15"/></svg>
                         </button>
-                        <button type="button" onclick="gerakPautan(${idx}, 1)" ${idx === appData.pautan.length - 1 ? 'disabled' : ''} title="Turunkan" class="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700 disabled:opacity-30 text-[#464B4F] dark:text-slate-300">
+                        <button type="button" onclick="gerakPautan(${idx}, 1)" ${idx === appData.pautan.length - 1 ? 'disabled' : ''} title="Turun bawah" class="p-1.5 rounded-lg hover:bg-white/80 dark:hover:bg-white/10 disabled:opacity-30 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                         </button>
-                        <button type="button" onclick="mulaEditPautan(${idx})" title="Sunting" class="p-1.5 rounded-lg hover:bg-[#679929]/15 text-[#679929] dark:text-[#86be3b]">
+                        <button type="button" onclick="mulaEditPautan(${idx})" title="Sunting" class="p-1.5 rounded-lg text-[#679929] dark:text-[#86be3b] hover:bg-[#679929]/15 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
                         </button>
-                        <button type="button" onclick="padamPautan(${idx})" title="Padam" class="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/40 text-red-600 dark:text-red-400">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                        <button type="button" onclick="padamPautan(${idx})" title="Padam" class="p-1.5 rounded-lg text-rose-500 hover:bg-rose-500/15 transition-colors">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                         </button>
                     </div>
                 </div>
             `).join('');
         }
 
-        function isiBorangProfil() {
-            document.getElementById('profNameInput').value = appData.profil.nama || '';
-            document.getElementById('profUserInput').value = appData.profil.username || '';
-            document.getElementById('profBioInput').value = appData.profil.bio || '';
-            document.getElementById('profImgInput').value = appData.profil.gambar || '';
+        function resetBorangPautan() {
+            document.getElementById('linkForm').reset();
+            document.getElementById('editIndex').value = '-1';
+            document.getElementById('formTitle').textContent = 'Tambah Pautan Baru';
+            document.getElementById('saveLinkBtn').textContent = '+ Tambah Pautan';
+            document.getElementById('cancelEditBtn').classList.add('hidden');
         }
 
         window.gerakPautan = function(index, arah) {
@@ -397,12 +316,12 @@
             const temp = appData.pautan[index];
             appData.pautan[index] = appData.pautan[targetIndex];
             appData.pautan[targetIndex] = temp;
-            simpanKeGoogleSheets('Susunan pautan dikemas kini di Sheet!');
+            simpanKeGoogleSheets('Susunan pautan dikemas kini!');
         };
 
         window.padamPautan = function(index) {
             appData.pautan.splice(index, 1);
-            simpanKeGoogleSheets('Pautan dipadam daripada Sheet!');
+            simpanKeGoogleSheets('Pautan berjaya dipadam!');
         };
 
         window.mulaEditPautan = function(index) {
@@ -415,31 +334,10 @@
             document.getElementById('inputSorotan').checked = !!item.sorotan;
 
             document.getElementById('formTitle').textContent = 'Sunting Pautan';
-            document.getElementById('saveLinkBtn').textContent = 'Kemas Kini Draf';
+            document.getElementById('saveLinkBtn').textContent = 'Kemas Kini Pautan';
             document.getElementById('cancelEditBtn').classList.remove('hidden');
         };
-
-        function resetBorangPautan() {
-            document.getElementById('linkForm').reset();
-            document.getElementById('editIndex').value = '-1';
-            document.getElementById('formTitle').textContent = 'Tambah Pautan Baru';
-            document.getElementById('saveLinkBtn').textContent = '+ Tambah Pautan';
-            document.getElementById('cancelEditBtn').classList.add('hidden');
-        }
-
-        function tunjukNotifikasi(mesej, ralat = false) {
-            const toast = document.getElementById('toastNotification');
-            const icon = document.getElementById('toastIcon');
-            document.getElementById('toastMessage').textContent = mesej;
-            icon.className = ralat ? "w-4 h-4 text-red-400" : "w-4 h-4 text-[#86be3b] dark:text-[#679929]";
-            toast.classList.remove('opacity-0', 'pointer-events-none');
-            toast.classList.add('opacity-100', '-translate-y-1');
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', '-translate-y-1');
-                toast.classList.add('opacity-0', 'pointer-events-none');
-            }, 3000);
-        }
-
+// ... existing code ... -->
         document.addEventListener('DOMContentLoaded', () => {
             // Tema
             const htmlEl = document.documentElement;
@@ -450,12 +348,6 @@
                 htmlEl.classList.toggle('dark');
                 localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
             });
-
-            // Isi semula PIN yang pernah disimpan di pelayar
-            const savedPin = localStorage.getItem('azzuha_admin_pin');
-            if (savedPin) {
-                document.getElementById('adminPinInput').value = savedPin;
-            }
 
             // Tarik data terkini dari Google Sheets
             muatDataDariSheet();
@@ -476,7 +368,7 @@
                 });
             });
 
-            // Hantar Borang Pautan (Terus simpan ke Google Sheets)
+            // Hantar Borang Pautan
             document.getElementById('linkForm').addEventListener('submit', (e) => {
                 e.preventDefault();
                 const idx = parseInt(document.getElementById('editIndex').value, 10);
@@ -491,41 +383,23 @@
                 if (idx >= 0) {
                     appData.pautan[idx] = pautanBaru;
                     resetBorangPautan();
-                    simpanKeGoogleSheets('Pautan dikemas kini di Google Sheets!');
+                    simpanKeGoogleSheets('Pautan dikemas kini!');
                 } else {
                     appData.pautan.push(pautanBaru);
                     resetBorangPautan();
-                    simpanKeGoogleSheets('Pautan baru disimpan ke Google Sheets!');
+                    simpanKeGoogleSheets('Pautan baru ditambah!');
                 }
             });
 
             document.getElementById('cancelEditBtn').addEventListener('click', resetBorangPautan);
 
-            // Simpan Profil (Terus simpan ke Google Sheets)
+            // Simpan Profil
             document.getElementById('saveProfileBtn').addEventListener('click', () => {
                 appData.profil.nama = document.getElementById('profNameInput').value.trim() || "Azzuha Group Travel & Tours";
                 appData.profil.username = document.getElementById('profUserInput').value.trim() || "@azzuhatravel";
                 appData.profil.bio = document.getElementById('profBioInput').value.trim();
                 appData.profil.gambar = document.getElementById('profImgInput').value.trim() || dataAsal.profil.gambar;
-                simpanKeGoogleSheets('Maklumat profil disimpan ke Google Sheets!');
-            });
-
-            // Butang Simpan Manual di Bar Atas
-            document.getElementById('publishLiveBtn').addEventListener('click', () => {
-                simpanKeGoogleSheets('Semua perubahan diterbitkan ke Google Sheets!');
-            });
-
-            // Muat Semula dari Sheet
-            document.getElementById('reloadFromSheetBtn').addEventListener('click', () => {
-                muatDataDariSheet();
-                tunjukNotifikasi('Data dimuat semula dari Google Sheets.');
-            });
-
-            // Reset Data Asal ke Google Sheets
-            document.getElementById('resetDefaultBtn').addEventListener('click', () => {
-                appData = JSON.parse(JSON.stringify(dataAsal));
-                isiBorangProfil();
-                simpanKeGoogleSheets('Data asal dipulihkan ke Google Sheets!');
+                simpanKeGoogleSheets('Maklumat profil disimpan!');
             });
         });
     </script>
