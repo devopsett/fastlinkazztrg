@@ -1,184 +1,289 @@
 <!DOCTYPE html>
-<html lang="ms" class="dark">
+<html lang="ms" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AI Database Assistant</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body {
-      background: radial-gradient(circle at top left, #0f172a, #020617);
-    }
-    .glass {
-      background: rgba(30, 41, 59, 0.65);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-    }
-    /* Sembunyikan scrollbar tetapi kekalkan fungsi skrol */
-    #chat-box::-webkit-scrollbar { width: 6px; }
-    #chat-box::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.2); border-radius: 9999px; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil & Pautan Rasmi | Nama Anda</title>
+    
+    <!-- Muat turun Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fon Google: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Konfigurasi Tailwind -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#679929',
+                            greenHover: '#558021',
+                            greenLight: '#f3f8ec',
+                            charcoal: '#464B4F',
+                            charcoalDark: '#2e3235',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+                    },
+                    keyframes: {
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(12px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        }
+                    }
+                }
+            }
+        };
+    </script>
 </head>
-<body class="text-slate-100 min-h-screen flex items-center justify-center p-3 sm:p-6 font-sans">
+<body class="relative overflow-x-hidden bg-gradient-to-br from-[#eef5e6] via-[#f8faf7] to-[#e6ece4] dark:from-[#121513] dark:via-[#181b19] dark:to-[#1d221e] text-[#464B4F] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-[#679929] selection:text-white transition-colors duration-300">
 
-  <div class="glass w-full max-w-2xl h-[90vh] rounded-2xl shadow-2xl flex flex-col overflow-hidden">
-    
-    <!-- Header -->
-    <div class="p-4 border-b border-slate-700/60 flex items-center justify-between bg-slate-900/40">
-      <div class="flex items-center gap-3">
-        <div class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></div>
-        <div>
-          <h1 class="font-semibold text-base sm:text-lg tracking-wide">AI Knowledge Assistant</h1>
-          <p class="text-xs text-slate-400">Berhubung terus ke pangkalan data Google Sheets</p>
-        </div>
-      </div>
-      <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-white px-3 py-1.5 rounded-lg bg-slate-800/70 transition">
-        Padam Sembang
-      </button>
+    <!-- Latar Belakang Cahaya Ambien (Untuk Kesan Kaca Glassmorphism) -->
+    <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div class="absolute -top-24 -left-20 w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-[#679929]/25 dark:bg-[#679929]/20 blur-3xl"></div>
+        <div class="absolute top-1/3 -right-24 w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-[#86be3b]/20 dark:bg-[#86be3b]/15 blur-3xl"></div>
+        <div class="absolute -bottom-24 left-1/4 w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-[#464B4F]/15 dark:bg-[#464B4F]/30 blur-3xl"></div>
     </div>
 
-    <!-- Ruangan Mesej -->
-    <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4">
-      <!-- Mesej Aluan -->
-      <div class="flex items-start gap-2.5">
-        <div class="bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed">
-          Assalamualaikum & salam sejahtera! Sila tanya apa sahaja soalan berkaitan maklumat dalam pangkalan data kami.
-        </div>
-      </div>
+    <!-- Bar Atas: Butang Kongsi & Tukar Tema -->
+    <header class="w-full max-w-md mx-auto px-4 pt-6 flex justify-between items-center">
+        <button id="shareBtn" type="button" aria-label="Salin pautan profil" class="px-3.5 py-2 rounded-full bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/80 dark:hover:bg-white/15 hover:scale-105 active:scale-95 transition-all text-[#464B4F] dark:text-slate-200 flex items-center gap-2 text-xs font-medium">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+            <span>Kongsi</span>
+        </button>
+
+        <button id="themeToggle" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-full bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/80 dark:hover:bg-white/15 hover:scale-105 active:scale-95 transition-all text-[#464B4F] dark:text-slate-200">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+            </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+            </svg>
+        </button>
+    </header>
+
+    <!-- Kandungan Utama -->
+    <main class="w-full max-w-md mx-auto px-4 py-6 flex-1 flex flex-col items-center">
+        
+        <!-- Kad Profil Glassmorphism -->
+        <section class="w-full text-center mb-6 p-6 rounded-3xl bg-white/55 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_0_rgba(70,75,79,0.08)] animate-fade-in-up">
+            <div class="relative inline-block mb-4">
+                <img 
+                    id="profileImgDisplay"
+                    src="https://placehold.co/160x160/679929/ffffff?text=AZ" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/160x160/464B4F/ffffff?text=Azzuha';"
+                    alt="Gambar Profil" 
+                    class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover bg-white/90 border-4 border-white/90 dark:border-white/20 shadow-lg mx-auto"
+                >
+                <span title="Akaun Disahkan" class="absolute bottom-1 right-1 bg-[#679929] text-white p-1 rounded-full border-2 border-white dark:border-[#181b19] shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"/>
+                    </svg>
+                </span>
+            </div>
+
+            <h1 id="profileNameDisplay" class="text-xl sm:text-2xl font-bold tracking-tight text-[#464B4F] dark:text-white">
+                Azzuha Group Travel & Tours
+            </h1>
+            <p id="profileUsernameDisplay" class="text-xs sm:text-sm font-semibold text-[#679929] dark:text-[#86be3b] mt-0.5">
+                @azzuhatravel
+            </p>
+            <p id="profileBioDisplay" class="text-sm text-[#464B4F]/85 dark:text-slate-300 mt-3 max-w-xs mx-auto leading-relaxed">
+                Membantu anda membina sistem digital & penyelesaian kreatif. Hubungi atau terokai pautan rasmi di bawah.
+            </p>
+
+            <!-- Ikon Media Sosial -->
+            <div class="flex items-center justify-center gap-3.5 mt-5">
+                <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="p-2.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-[#679929] hover:text-white dark:hover:bg-[#679929] hover:border-transparent transition-all shadow-sm hover:-translate-y-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+                </a>
+                <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="p-2.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-[#679929] hover:text-white dark:hover:bg-[#679929] hover:border-transparent transition-all shadow-sm hover:-translate-y-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg>
+                </a>
+                <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="p-2.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-[#679929] hover:text-white dark:hover:bg-[#679929] hover:border-transparent transition-all shadow-sm hover:-translate-y-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/></svg>
+                </a>
+                <a href="mailto:emel@domainanda.com" aria-label="E-mel" class="p-2.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-[#679929] hover:text-white dark:hover:bg-[#679929] hover:border-transparent transition-all shadow-sm hover:-translate-y-0.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Senarai Butang Pautan Utama -->
+        <section id="linksContainer" class="w-full space-y-3.5 animate-fade-in-up" style="animation-delay: 0.1s;"></section>
+
+    </main>
+
+    <!-- Pengaki -->
+    <footer class="w-full max-w-md mx-auto px-4 py-6 text-center">
+        <p class="text-xs text-[#464B4F]/70 dark:text-slate-500">
+            &copy; <span id="currentYear"></span> <span id="footerNameDisplay">Azzuha Group Travel & Tours</span>. Dibina dengan GitHub Pages.
+        </p>
+    </footer>
+
+    <!-- Notifikasi Toast -->
+    <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2.5 rounded-full bg-[#464B4F] dark:bg-white text-white dark:text-[#464B4F] text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#86be3b] dark:text-[#679929]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="toastMessage">Pautan berjaya disalin!</span>
     </div>
 
-    <!-- Borang Input -->
-    <form id="chat-form" class="p-3 sm:p-4 border-t border-slate-700/60 bg-slate-900/50 flex gap-2">
-      <input 
-        type="text" 
-        id="user-input" 
-        placeholder="Taip soalan anda di sini..." 
-        required
-        autocomplete="off"
-        class="flex-1 bg-slate-800/80 border border-slate-700 text-white text-sm rounded-xl px-4 py-3 focus:outline-none focus:border-sky-500 transition"
-      />
-      <button 
-        type="submit" 
-        id="send-btn"
-        class="bg-sky-600 hover:bg-sky-500 disabled:opacity-50 text-white font-medium text-sm px-5 py-3 rounded-xl transition flex items-center gap-2 shrink-0"
-      >
-        <span>Hantar</span>
-      </button>
-    </form>
+    <script>
+        const pustakaIkon = {
+            whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+            web: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
+            shop: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+            download: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>`,
+            telegram: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" x2="11" y1="2" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`,
+            star: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
+        };
 
-  </div>
+        /* DATA_START */
+        const dataPautan = {
+            profil: {
+                nama: "Azzuha Group Travel & Tours",
+                username: "@azzuhatravel",
+                bio: "Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.",
+                gambar: "https://placehold.co/160x160/679929/ffffff?text=AZ"
+            },
+            pautan: [
+                {
+                    tajuk: "Hubungi Terus di WhatsApp",
+                    subtajuk: "Respon pantas waktu bekerja",
+                    url: "https://wa.me/60123456789?text=Hai%2C%20saya%20lihat%20pautan%20dari%20profil%20anda",
+                    sorotan: true,
+                    jenisIkon: "whatsapp"
+                },
+                {
+                    tajuk: "Laman Web & Portfolio Rasmi",
+                    subtajuk: "Lihat hasil kerja dan kajian kes terkini",
+                    url: "https://contohdomain.com",
+                    sorotan: false,
+                    jenisIkon: "web"
+                },
+                {
+                    tajuk: "Katalog Produk & Pakej Servis",
+                    subtajuk: "Senarai harga dan spesifikasi lengkap",
+                    url: "https://contohdomain.com/katalog",
+                    sorotan: false,
+                    jenisIkon: "shop"
+                },
+                {
+                    tajuk: "Muat Turun E-Book Panduan Percuma",
+                    subtajuk: "Format PDF • 25 Muka Surat",
+                    url: "https://contohdomain.com/ebook",
+                    sorotan: false,
+                    jenisIkon: "download"
+                },
+                {
+                    tajuk: "Saluran Telegram Komuniti",
+                    subtajuk: "Perkongsian tip harian & hebahan awal",
+                    url: "https://t.me/usernameanda",
+                    sorotan: false,
+                    jenisIkon: "telegram"
+                }
+            ]
+        };
+        /* DATA_END */
 
-  <script>
-    // Gantikan dengan Web App URL daripada Google Apps Script anda
-    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwcMQ2AKBX291OKGqLvNrhT4Hnu280nJNU6LclZ7BqKOEsXhlFMW31CxO5AS1hiRjZQ/exec";
+        function paparkanHalaman() {
+            document.getElementById('profileNameDisplay').textContent = dataPautan.profil.nama;
+            document.getElementById('footerNameDisplay').textContent = dataPautan.profil.nama;
+            document.getElementById('profileUsernameDisplay').textContent = dataPautan.profil.username;
+            document.getElementById('profileBioDisplay').textContent = dataPautan.profil.bio;
+            document.getElementById('profileImgDisplay').src = dataPautan.profil.gambar;
+            document.title = `${dataPautan.profil.nama} | Pautan Rasmi`;
 
-    const chatForm = document.getElementById("chat-form");
-    const userInput = document.getElementById("user-input");
-    const chatBox = document.getElementById("chat-box");
-    const sendBtn = document.getElementById("send-btn");
+            const container = document.getElementById('linksContainer');
+            container.innerHTML = dataPautan.pautan.map(item => {
+                const kelasButang = item.sorotan
+                    ? "bg-[#679929]/90 hover:bg-[#679929] backdrop-blur-xl text-white border-white/40 shadow-[0_8px_25px_rgba(103,153,41,0.3)] hover:shadow-[0_10px_30px_rgba(103,153,41,0.45)]"
+                    : "bg-white/60 dark:bg-white/[0.07] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl text-[#464B4F] dark:text-slate-100 border-white/80 dark:border-white/15 hover:border-[#679929]/60 dark:hover:border-[#86be3b]/60 shadow-[0_8px_24px_rgba(70,75,79,0.06)]";
 
-    chatForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const question = userInput.value.trim();
-      if (!question) return;
+                const kelasIkon = item.sorotan
+                    ? "bg-white/25 text-white border border-white/30"
+                    : "bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] border border-[#679929]/20 group-hover:bg-[#679929] group-hover:text-white";
 
-      // Papar mesej pengguna
-      appendMessage(question, "user");
-      userInput.value = "";
-      setLoading(true);
+                const kelasSubtajuk = item.sorotan
+                    ? "text-white/90"
+                    : "text-[#464B4F]/75 dark:text-slate-300/80";
 
-      // Papar indikator menaip
-      const loadingId = appendLoadingBubble();
+                const svgIkon = pustakaIkon[item.jenisIkon] || pustakaIkon.web;
 
-      try {
-        // Nota: Apps Script memerlukan text/plain untuk mengelakkan isu CORS preflight
-        const response = await fetch(APPS_SCRIPT_URL, {
-          method: "POST",
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({ question: question })
-        });
-
-        const data = await response.json();
-        removeElement(loadingId);
-
-        if (data.status === "success") {
-          appendMessage(data.reply, "ai");
-        } else {
-          appendMessage("Ralat sistem: " + data.message, "ai");
+                return `
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" 
+                       class="group flex items-center justify-between w-full p-3.5 sm:p-4 rounded-2xl border transition-all duration-200 hover:-translate-y-0.5 active:scale-[0.98] ${kelasButang}">
+                        <div class="flex items-center gap-3.5 min-w-0">
+                            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${kelasIkon}">
+                                ${svgIkon}
+                            </div>
+                            <div class="text-left truncate">
+                                <div class="text-sm font-semibold truncate">${item.tajuk}</div>
+                                ${item.subtajuk ? `<div class="text-xs truncate mt-0.5 ${kelasSubtajuk}">${item.subtajuk}</div>` : ''}
+                            </div>
+                        </div>
+                        <div class="pl-2 shrink-0 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </div>
+                    </a>
+                `;
+            }).join('');
         }
-      } catch (error) {
-        removeElement(loadingId);
-        appendMessage("Gagal berhubung dengan pelayan. Sila semak sambungan atau URL Apps Script.", "ai");
-      } finally {
-        setLoading(false);
-        userInput.focus();
-      }
-    });
 
-    function appendMessage(text, sender) {
-  const wrapper = document.createElement("div");
-  wrapper.className = sender === "user" ? "flex justify-end" : "flex items-start gap-2.5";
+        function inisialisasiTema() {
+            const htmlEl = document.documentElement;
+            const savedTheme = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
-  const bubble = document.createElement("div");
-  if (sender === "user") {
-    bubble.className = "bg-sky-600 text-white px-4 py-3 rounded-2xl rounded-tr-none max-w-[85%] text-sm leading-relaxed shadow-md";
-    bubble.textContent = text;
-  } else {
-    bubble.className = "bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed whitespace-pre-line shadow-md";
-    
-    // Tukar format Markdown (**teks**) kepada tag HTML <strong>teks</strong>
-    let formattedText = text
-      .replace(/&/g, "&")
-      .replace(/</g, "<")
-      .replace(/>/g, ">")
-      .replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold text-white">$1</strong>')
-      .replace(/^\* /gm, '• '); // Tukar simbol * di awal baris menjadi titik bullet (•)
+            if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+                htmlEl.classList.add('dark');
+            }
 
-    bubble.innerHTML = formattedText;
-  }
+            document.getElementById('themeToggle').addEventListener('click', () => {
+                htmlEl.classList.toggle('dark');
+                localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
+            });
+        }
 
-  wrapper.appendChild(bubble);
-  chatBox.appendChild(wrapper);
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
+        function salinPautanHalaman() {
+            const urlSemasa = window.location.href;
+            if (navigator.share) {
+                navigator.share({ title: document.title, url: urlSemasa }).catch(() => {});
+                return;
+            }
+            const tempInput = document.createElement('input');
+            tempInput.value = urlSemasa;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            try {
+                document.execCommand('copy');
+                const toast = document.getElementById('toastNotification');
+                toast.classList.remove('opacity-0', 'pointer-events-none');
+                toast.classList.add('opacity-100', '-translate-y-1');
+                setTimeout(() => {
+                    toast.classList.remove('opacity-100', '-translate-y-1');
+                    toast.classList.add('opacity-0', 'pointer-events-none');
+                }, 2500);
+            } catch (err) {}
+            document.body.removeChild(tempInput);
+        }
 
-    function appendLoadingBubble() {
-      const id = "loading-" + Date.now();
-      const wrapper = document.createElement("div");
-      wrapper.id = id;
-      wrapper.className = "flex items-start gap-2.5";
-      wrapper.innerHTML = `
-        <div class="bg-slate-800/90 border border-slate-700/50 text-slate-400 px-4 py-3 rounded-2xl rounded-tl-none text-sm flex items-center gap-1.5">
-          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce"></span>
-          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.15s"></span>
-          <span class="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style="animation-delay: 0.3s"></span>
-        </div>
-      `;
-      chatBox.appendChild(wrapper);
-      chatBox.scrollTop = chatBox.scrollHeight;
-      return id;
-    }
-
-    function removeElement(id) {
-      const el = document.getElementById(id);
-      if (el) el.remove();
-    }
-
-    function setLoading(isLoading) {
-      userInput.disabled = isLoading;
-      sendBtn.disabled = isLoading;
-    }
-
-    function clearChat() {
-      chatBox.innerHTML = `
-        <div class="flex items-start gap-2.5">
-          <div class="bg-slate-800/90 border border-slate-700/50 text-slate-200 px-4 py-3 rounded-2xl rounded-tl-none max-w-[85%] text-sm leading-relaxed">
-            Sejarah sembang telah dipadam. Sila ajukan soalan baharu.
-          </div>
-        </div>
-      `;
-    }
-  </script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            paparkanHalaman();
+            inisialisasiTema();
+            document.getElementById('shareBtn').addEventListener('click', salinPautanHalaman);
+        });
+    </script>
 </body>
 </html>
