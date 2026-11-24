@@ -68,10 +68,10 @@
             <div class="relative inline-block mb-4">
                 <img 
                     id="profileImgDisplay"
-                    src="https://placehold.co/160x160/679929/ffffff?text=AZ" 
-                    onerror="this.onerror=null; this.src='https://placehold.co/160x160/464B4F/ffffff?text=Azzuha';"
+                    src="./logoprofil.png" 
+                    onerror="this.onerror=null; this.src='https://placehold.co/160x160/679929/ffffff?text=AZ';"
                     alt="Gambar Profil" 
-                    class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover bg-white/90 border-4 border-white/90 dark:border-white/20 shadow-lg mx-auto"
+                    class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-contain p-1.5 bg-white/95 border-4 border-white/90 dark:border-white/20 shadow-lg mx-auto"
                 >
                 <span title="Akaun Disahkan" class="absolute bottom-1 right-1 bg-[#679929] text-white p-1 rounded-full border-2 border-white dark:border-[#181b19] shadow-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
@@ -124,10 +124,11 @@
     </div>
 
     <script>
-        // =====================================================================
-        // TAMPAL URL WEB APP GOOGLE APPS SCRIPT ANDA DI SINI:
+        // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
-        // =====================================================================
+
+        // Gambar lalai terus dari repositori GitHub
+        const GAMBAR_GITHUB_LALAI = "./logoprofil.png";
 
         const pustakaIkon = {
             whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
@@ -138,13 +139,12 @@
             star: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
         };
 
-        // Data sandaran jika Google Script URL belum ditetapkan atau luar talian
         const dataSandaran = {
             profil: {
                 nama: "Azzuha Group Travel & Tours",
                 username: "@azzuhatravel",
                 bio: "Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.",
-                gambar: "https://placehold.co/160x160/679929/ffffff?text=AZ"
+                gambar: GAMBAR_GITHUB_LALAI
             },
             pautan: [
                 {
@@ -171,7 +171,12 @@
             document.getElementById('footerNameDisplay').textContent = data.profil.nama;
             document.getElementById('profileUsernameDisplay').textContent = data.profil.username;
             document.getElementById('profileBioDisplay').textContent = data.profil.bio;
-            document.getElementById('profileImgDisplay').src = data.profil.gambar;
+            
+            // Jika gambar kosong atau masih URL placeholder/nama lama, guna fail GitHub ./logoprofil.png
+            const gambarProfil = (!data.profil.gambar || data.profil.gambar.includes('placehold.co') || data.profil.gambar === './logo.png') 
+                ? GAMBAR_GITHUB_LALAI 
+                : data.profil.gambar;
+            document.getElementById('profileImgDisplay').src = gambarProfil;
             document.title = `${data.profil.nama} | Pautan Rasmi`;
 
             const container = document.getElementById('linksContainer');
@@ -218,17 +223,11 @@
         }
 
         async function muatDataLive() {
-            // Papar cache tempatan dahulu supaya serta-merta kelihatan laju
             const cacheTempatan = localStorage.getItem('azzuha_live_cache');
             if (cacheTempatan) {
                 paparkanHalaman(JSON.parse(cacheTempatan));
             } else {
                 paparkanSkeleton();
-            }
-
-            if (!GOOGLE_SCRIPT_URL || GOOGLE_SCRIPT_URL.includes("TAMPAL_URL_WEB_APP")) {
-                if (!cacheTempatan) paparkanHalaman(dataSandaran);
-                return;
             }
 
             try {
