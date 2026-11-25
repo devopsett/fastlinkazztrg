@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin Live | Azzuha</title>
+    <title>Panel Admin | Fast-Link Azzuha</title>
     
     <!-- Muat turun Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,11 +37,19 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        @keyframes gegarPin {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); }
+            40%, 80% { transform: translateX(6px); }
+        }
         .smooth-enter {
             animation: munculLancarAdmin 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         .admin-item-enter {
             animation: munculLancarAdmin 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .pin-shake {
+            animation: gegarPin 0.35s ease-in-out;
         }
     </style>
 </head>
@@ -54,7 +62,31 @@
         <div class="absolute -bottom-24 left-1/3 w-96 h-96 rounded-full bg-[#464B4F]/15 dark:bg-[#464B4F]/30 blur-3xl"></div>
     </div>
 
-    <main class="w-full max-w-2xl mx-auto px-4 py-8 flex-1 flex flex-col">
+    <!-- Skrin Kunci PIN Admin -->
+    <div id="pinLockOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#eef5e6]/85 dark:bg-[#121513]/90 backdrop-blur-xl transition-opacity duration-300">
+        <button id="themeTogglePin" type="button" aria-label="Tukar mod gelap atau cerah" class="absolute top-5 right-5 p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        </button>
+        <div id="pinCardBox" class="w-full max-w-xs p-6 rounded-3xl bg-white/80 dark:bg-white/[0.08] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_12px_40px_rgba(70,75,79,0.12)] text-center smooth-enter">
+            <div class="w-12 h-12 rounded-2xl bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h2 class="text-lg font-bold text-[#464B4F] dark:text-white">Akses Panel Admin</h2>
+            <p class="text-xs text-[#464B4F]/75 dark:text-slate-300 mt-1 mb-5">Masukkan 4-digit PIN keselamatan</p>
+            
+            <form id="pinUnlockForm" class="space-y-3">
+                <input type="password" id="pinCodeInput" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="••••" autocomplete="off" required
+                       class="w-full text-center tracking-[0.6em] text-xl font-bold py-3 px-4 rounded-2xl bg-white/90 dark:bg-white/10 border border-[#464B4F]/15 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
+                <p id="pinErrorMsg" class="hidden text-xs font-medium text-rose-500">PIN tidak sah. Sila cuba lagi.</p>
+                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-[#679929] hover:bg-[#558021] text-white text-xs font-semibold shadow-sm transition-all">
+                    Buka Panel Admin
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <main id="adminMainContent" class="hidden w-full max-w-2xl mx-auto px-4 py-8 flex-1 flex flex-col">
         <!-- Kepala Halaman Admin -->
         <div class="flex items-center justify-between gap-4 p-5 mb-6 rounded-3xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_rgba(70,75,79,0.06)]">
             <div>
@@ -175,8 +207,11 @@
     <script>
         // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
+        const ADMIN_PIN = "0711";
         let toastTimeoutId = null;
         let animasiAwalSelesai = false;
+        let rekodCapAdmin = "";
+        let sedangSimpan = false;
         const pustakaIkon = {
             whatsapp: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
             web: `<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" x2="22" y1="12" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
@@ -215,11 +250,19 @@
             document.getElementById('profImgInput').value = (appData.profil.gambar && appData.profil.gambar !== './logo.png') ? appData.profil.gambar : "./logoprofil.png";
         }
 
+        function janaCapAdmin(data) {
+            if (!data) return "";
+            const p = data.profil || {};
+            const senarai = (data.pautan || []).map(item => `${item.tajuk}|${item.subtajuk}|${item.url}|${item.jenisIkon}|${!!item.sorotan}`).join(";;");
+            return `${p.nama}|${p.username}|${p.bio}|${p.gambar}::${senarai}`;
+        }
+
         async function muatDataDariSheet() {
             const cacheTempatan = localStorage.getItem('azzuha_live_cache');
             if (cacheTempatan) {
                 try {
                     appData = JSON.parse(cacheTempatan);
+                    rekodCapAdmin = janaCapAdmin(appData);
                     isiBorangProfil();
                     renderAdminList(true);
                     animasiAwalSelesai = true;
@@ -237,27 +280,40 @@
                 const text = await res.text();
                 const json = JSON.parse(text);
                 if (json.status === "success" && json.data) {
-                    appData = json.data;
-                    localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
+                    const capBaharu = janaCapAdmin(json.data);
+                    if (capBaharu !== rekodCapAdmin || !animasiAwalSelesai) {
+                        appData = json.data;
+                        rekodCapAdmin = capBaharu;
+                        localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
+                        isiBorangProfil();
+                        renderAdminList(!animasiAwalSelesai);
+                        animasiAwalSelesai = true;
+                    }
                 }
             } catch (err) {
                 if (!cacheTempatan) {
                     tunjukNotifikasi('Gagal menarik data dari Google Sheets.', true);
+                    renderAdminList(false);
                 }
             }
-            isiBorangProfil();
-            renderAdminList(!animasiAwalSelesai);
-            animasiAwalSelesai = true;
         }
 
         async function simpanKeGoogleSheets(mesejBerjaya = 'Perubahan berjaya disimpan!') {
+            if (sedangSimpan) return;
+            sedangSimpan = true;
+            rekodCapAdmin = janaCapAdmin(appData);
             renderAdminList(false);
+
+            const saveLinkBtn = document.getElementById('saveLinkBtn');
+            const saveProfileBtn = document.getElementById('saveProfileBtn');
+            if (saveLinkBtn) saveLinkBtn.disabled = true;
+            if (saveProfileBtn) saveProfileBtn.disabled = true;
 
             try {
                 const res = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                    body: JSON.stringify({ data: appData })
+                    body: JSON.stringify({ pin: ADMIN_PIN, data: appData })
                 });
                 const json = await res.json();
 
@@ -265,10 +321,14 @@
                     localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
                     tunjukNotifikasi(mesejBerjaya, false);
                 } else {
-                    tunjukNotifikasi('Gagal menyimpan perubahan.', true);
+                    tunjukNotifikasi(json.message || 'Gagal menyimpan perubahan.', true);
                 }
             } catch (err) {
                 tunjukNotifikasi('Ralat sambungan semasa menyimpan.', true);
+            } finally {
+                sedangSimpan = false;
+                if (saveLinkBtn) saveLinkBtn.disabled = false;
+                if (saveProfileBtn) saveProfileBtn.disabled = false;
             }
         }
 
@@ -335,16 +395,18 @@
 
         window.mulaEditPautan = function(index) {
             const item = appData.pautan[index];
+            if (!item) return;
             document.getElementById('editIndex').value = index;
-            document.getElementById('inputTajuk').value = item.tajuk;
+            document.getElementById('inputTajuk').value = item.tajuk || '';
             document.getElementById('inputSubtajuk').value = item.subtajuk || '';
-            document.getElementById('inputUrl').value = item.url;
+            document.getElementById('inputUrl').value = item.url || '';
             document.getElementById('inputJenisIkon').value = item.jenisIkon || 'web';
             document.getElementById('inputSorotan').checked = !!item.sorotan;
 
             document.getElementById('formTitle').textContent = 'Sunting Pautan';
-            document.getElementById('saveLinkBtn').textContent = 'Kemas Kini Pautan';
+            document.getElementById('saveLinkBtn').textContent = 'Simpan Perubahan';
             document.getElementById('cancelEditBtn').classList.remove('hidden');
+            document.getElementById('linkForm').scrollIntoView({ behavior: 'smooth', block: 'center' });
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -352,12 +414,71 @@
             if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
             }
-            document.getElementById('themeToggleAdmin').addEventListener('click', () => {
+            const tukarTema = () => {
                 htmlEl.classList.toggle('dark');
                 localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
-            });
+            };
+            document.getElementById('themeToggleAdmin').addEventListener('click', tukarTema);
+            document.getElementById('themeTogglePin').addEventListener('click', tukarTema);
 
-            muatDataDariSheet();
+            function bukaKunciAdmin(tanpaFade = false) {
+                const overlay = document.getElementById('pinLockOverlay');
+                const mainContent = document.getElementById('adminMainContent');
+                if (tanpaFade) {
+                    overlay.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    muatDataDariSheet();
+                    return;
+                }
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    mainContent.classList.remove('hidden');
+                    muatDataDariSheet();
+                }, 220);
+            }
+
+            function tunjukRalatPin() {
+                const pinInput = document.getElementById('pinCodeInput');
+                const pinError = document.getElementById('pinErrorMsg');
+                const pinCard = document.getElementById('pinCardBox');
+                pinError.classList.remove('hidden');
+                pinCard.classList.remove('pin-shake');
+                void pinCard.offsetWidth;
+                pinCard.classList.add('pin-shake');
+                pinInput.value = '';
+                pinInput.focus();
+            }
+
+            if (sessionStorage.getItem('azzuha_admin_unlocked') === ADMIN_PIN) {
+                bukaKunciAdmin(true);
+            } else {
+                const pinInput = document.getElementById('pinCodeInput');
+                const pinError = document.getElementById('pinErrorMsg');
+                setTimeout(() => pinInput.focus(), 100);
+
+                pinInput.addEventListener('input', () => {
+                    pinError.classList.add('hidden');
+                    if (pinInput.value.length === 4) {
+                        if (pinInput.value === ADMIN_PIN) {
+                            sessionStorage.setItem('azzuha_admin_unlocked', ADMIN_PIN);
+                            bukaKunciAdmin(false);
+                        } else {
+                            tunjukRalatPin();
+                        }
+                    }
+                });
+
+                document.getElementById('pinUnlockForm').addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    if (pinInput.value.trim() === ADMIN_PIN) {
+                        sessionStorage.setItem('azzuha_admin_unlocked', ADMIN_PIN);
+                        bukaKunciAdmin(false);
+                    } else {
+                        tunjukRalatPin();
+                    }
+                });
+            }
 
             document.querySelectorAll('.admin-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
