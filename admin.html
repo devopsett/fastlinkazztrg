@@ -39,17 +39,31 @@
         }
         @keyframes gegarPin {
             0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-6px); }
-            40%, 80% { transform: translateX(6px); }
+            15%, 55%, 85% { transform: translateX(-8px); }
+            35%, 70% { transform: translateX(8px); }
+        }
+        @keyframes masukPanelUtama {
+            from { opacity: 0; transform: translateY(18px) scale(0.98); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        @keyframes keluarPanelUtama {
+            from { opacity: 1; transform: translateY(0) scale(1); }
+            to { opacity: 0; transform: translateY(14px) scale(0.98); }
         }
         .smooth-enter {
             animation: munculLancarAdmin 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .panel-unlock-enter {
+            animation: masukPanelUtama 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+        .panel-lock-exit {
+            animation: keluarPanelUtama 0.28s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
         .admin-item-enter {
             animation: munculLancarAdmin 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
         }
         .pin-shake {
-            animation: gegarPin 0.35s ease-in-out;
+            animation: gegarPin 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
         }
     </style>
 </head>
@@ -63,8 +77,8 @@
     </div>
 
     <!-- Skrin Kunci PIN Admin -->
-    <div id="pinLockOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#eef5e6]/90 dark:bg-[#0d100e]/95 backdrop-blur-xl transition-opacity duration-300">
-        <div id="pinCardBox" class="relative w-full max-w-[360px] p-7 sm:p-8 rounded-[28px] bg-white/85 dark:bg-[#191d1a]/95 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] text-center smooth-enter">
+    <div id="pinLockOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#eef5e6]/90 dark:bg-[#0d100e]/95 backdrop-blur-xl transition-all duration-350 ease-out">
+        <div id="pinCardBox" class="relative w-full max-w-[360px] p-7 sm:p-8 rounded-[28px] bg-white/85 dark:bg-[#191d1a]/95 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] text-center smooth-enter transition-all duration-300 ease-out">
             <!-- Butang Penukar Tema di Penjuru Atas Kanan Kad -->
             <button id="themeTogglePin" type="button" aria-label="Tukar mod gelap atau cerah" class="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center bg-black/[0.04] dark:bg-white/[0.06] border border-black/10 dark:border-white/10 text-[#464B4F] dark:text-slate-200 hover:bg-black/[0.08] dark:hover:bg-white/[0.12] transition-all">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -105,10 +119,15 @@
                 <h1 class="text-xl sm:text-2xl font-bold text-[#464B4F] dark:text-white">Panel Admin</h1>
                 <p class="text-xs text-[#464B4F]/75 dark:text-slate-300 mt-0.5">Urus senarai pautan dan maklumat profil anda</p>
             </div>
-            <button id="themeToggleAdmin" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-            </button>
+            <div class="flex items-center gap-2 shrink-0">
+                <button id="themeToggleAdmin" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+                <button id="logoutAdminBtn" type="button" aria-label="Log Keluar" title="Log Keluar" class="p-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 text-rose-600 dark:text-rose-400 transition-all shadow-sm active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+                </button>
+            </div>
         </div>
 
         <!-- Kad Utama Halaman Admin (Glassmorphism) -->
@@ -435,6 +454,7 @@
 
             function bukaKunciAdmin(tanpaFade = false) {
                 const overlay = document.getElementById('pinLockOverlay');
+                const pinCard = document.getElementById('pinCardBox');
                 const mainContent = document.getElementById('adminMainContent');
                 if (tanpaFade) {
                     overlay.classList.add('hidden');
@@ -442,54 +462,89 @@
                     muatDataDariSheet();
                     return;
                 }
+                pinCard.classList.remove('smooth-enter', 'pin-shake');
+                pinCard.classList.add('scale-95', 'opacity-0');
                 overlay.classList.add('opacity-0', 'pointer-events-none');
                 setTimeout(() => {
                     overlay.classList.add('hidden');
-                    mainContent.classList.remove('hidden');
+                    pinCard.classList.remove('scale-95', 'opacity-0');
+                    mainContent.classList.remove('hidden', 'panel-unlock-enter', 'panel-lock-exit');
+                    void mainContent.offsetWidth;
+                    mainContent.classList.add('panel-unlock-enter');
                     muatDataDariSheet();
-                }, 220);
+                }, 300);
             }
+
+            function kunciSemulaAdmin() {
+                sessionStorage.removeItem('azzuha_admin_unlocked');
+                const overlay = document.getElementById('pinLockOverlay');
+                const pinCard = document.getElementById('pinCardBox');
+                const mainContent = document.getElementById('adminMainContent');
+                const pinInput = document.getElementById('pinCodeInput');
+                const pinError = document.getElementById('pinErrorMsg');
+
+                mainContent.classList.remove('panel-unlock-enter');
+                mainContent.classList.add('panel-lock-exit');
+
+                setTimeout(() => {
+                    mainContent.classList.add('hidden');
+                    mainContent.classList.remove('panel-lock-exit');
+                    pinInput.value = '';
+                    pinInput.classList.remove('ring-2', 'ring-rose-500', 'border-rose-500');
+                    pinError.classList.add('hidden');
+
+                    overlay.classList.remove('hidden');
+                    overlay.classList.add('opacity-0');
+                    pinCard.classList.remove('smooth-enter', 'pin-shake');
+                    
+                    requestAnimationFrame(() => {
+                        overlay.classList.remove('opacity-0', 'pointer-events-none');
+                        pinCard.classList.add('smooth-enter');
+                        setTimeout(() => pinInput.focus(), 120);
+                    });
+                }, 260);
+            }
+
+            document.getElementById('logoutAdminBtn').addEventListener('click', kunciSemulaAdmin);
 
             function tunjukRalatPin() {
                 const pinInput = document.getElementById('pinCodeInput');
                 const pinError = document.getElementById('pinErrorMsg');
                 const pinCard = document.getElementById('pinCardBox');
+                
                 pinError.classList.remove('hidden');
-                pinCard.classList.remove('pin-shake');
+                pinInput.classList.add('ring-2', 'ring-rose-500', 'border-rose-500');
+                
+                pinCard.classList.remove('smooth-enter', 'pin-shake');
                 void pinCard.offsetWidth;
                 pinCard.classList.add('pin-shake');
+                
                 pinInput.value = '';
                 pinInput.focus();
             }
 
+            const pinInput = document.getElementById('pinCodeInput');
+            const pinError = document.getElementById('pinErrorMsg');
+
+            pinInput.addEventListener('input', () => {
+                pinError.classList.add('hidden');
+                pinInput.classList.remove('ring-2', 'ring-rose-500', 'border-rose-500');
+            });
+
+            document.getElementById('pinUnlockForm').addEventListener('submit', (e) => {
+                e.preventDefault();
+                if (pinInput.value.trim() === ADMIN_PIN) {
+                    sessionStorage.setItem('azzuha_admin_unlocked', ADMIN_PIN);
+                    bukaKunciAdmin(false);
+                } else {
+                    tunjukRalatPin();
+                }
+            });
+
             if (sessionStorage.getItem('azzuha_admin_unlocked') === ADMIN_PIN) {
                 bukaKunciAdmin(true);
             } else {
-                const pinInput = document.getElementById('pinCodeInput');
-                const pinError = document.getElementById('pinErrorMsg');
                 setTimeout(() => pinInput.focus(), 100);
-
-                pinInput.addEventListener('input', () => {
-                    pinError.classList.add('hidden');
-                    if (pinInput.value.length === 4) {
-                        if (pinInput.value === ADMIN_PIN) {
-                            sessionStorage.setItem('azzuha_admin_unlocked', ADMIN_PIN);
-                            bukaKunciAdmin(false);
-                        } else {
-                            tunjukRalatPin();
-                        }
-                    }
-                });
-
-                document.getElementById('pinUnlockForm').addEventListener('submit', (e) => {
-                    e.preventDefault();
-                    if (pinInput.value.trim() === ADMIN_PIN) {
-                        sessionStorage.setItem('azzuha_admin_unlocked', ADMIN_PIN);
-                        bukaKunciAdmin(false);
-                    } else {
-                        tunjukRalatPin();
-                    }
-                });
             }
 
             document.querySelectorAll('.admin-tab').forEach(tab => {
