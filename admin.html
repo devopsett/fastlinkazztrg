@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Panel Admin | Fast-Link Azzuha</title>
+    <title>Panel Admin | Fast-Link Azzuha Terengganu</title>
     
     <!-- Muat turun Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -63,24 +63,36 @@
     </div>
 
     <!-- Skrin Kunci PIN Admin -->
-    <div id="pinLockOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#eef5e6]/85 dark:bg-[#121513]/90 backdrop-blur-xl transition-opacity duration-300">
-        <button id="themeTogglePin" type="button" aria-label="Tukar mod gelap atau cerah" class="absolute top-5 right-5 p-2.5 rounded-xl bg-white/70 dark:bg-white/10 backdrop-blur-md border border-white/80 dark:border-white/15 text-[#464B4F] dark:text-slate-200 hover:bg-white/90 dark:hover:bg-white/20 transition-all shadow-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-        </button>
-        <div id="pinCardBox" class="w-full max-w-xs p-6 rounded-3xl bg-white/80 dark:bg-white/[0.08] backdrop-blur-2xl border border-white/90 dark:border-white/15 shadow-[0_12px_40px_rgba(70,75,79,0.12)] text-center smooth-enter">
-            <div class="w-12 h-12 rounded-2xl bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] flex items-center justify-center mx-auto mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+    <div id="pinLockOverlay" class="fixed inset-0 z-40 flex items-center justify-center p-4 bg-[#eef5e6]/90 dark:bg-[#0d100e]/95 backdrop-blur-xl transition-opacity duration-300">
+        <div id="pinCardBox" class="relative w-full max-w-[360px] p-7 sm:p-8 rounded-[28px] bg-white/85 dark:bg-[#191d1a]/95 backdrop-blur-2xl border border-black/10 dark:border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.18)] text-center smooth-enter">
+            <!-- Butang Penukar Tema di Penjuru Atas Kanan Kad -->
+            <button id="themeTogglePin" type="button" aria-label="Tukar mod gelap atau cerah" class="absolute top-5 right-5 w-10 h-10 rounded-full flex items-center justify-center bg-black/[0.04] dark:bg-white/[0.06] border border-black/10 dark:border-white/10 text-[#464B4F] dark:text-slate-200 hover:bg-black/[0.08] dark:hover:bg-white/[0.12] transition-all">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+            </button>
+
+            <!-- Logo Profil Bulat -->
+            <div class="mt-4 mb-4 flex justify-center">
+                <div class="p-1.5 rounded-full bg-[#464B4F]/15 dark:bg-black/40 border border-[#464B4F]/20 dark:border-white/15 shadow-sm">
+                    <img src="./logoprofil.png" onerror="this.onerror=null;this.src='https://placehold.co/160x160/679929/ffffff?text=AZZUHA';" alt="Logo Azzuha" class="w-20 h-20 rounded-full object-cover bg-[#77b12c] block">
+                </div>
             </div>
-            <h2 class="text-lg font-bold text-[#464B4F] dark:text-white">Akses Panel Admin</h2>
-            <p class="text-xs text-[#464B4F]/75 dark:text-slate-300 mt-1 mb-5">Masukkan 4-digit PIN keselamatan</p>
+
+            <h2 class="text-xl font-bold tracking-tight text-[#464B4F] dark:text-white">Log Masuk Panel Admin</h2>
+            <p class="text-xs font-semibold text-[#679929] dark:text-[#86be3b] mt-1 mb-6">Fast-Link | Azzuha Terengganu</p>
             
-            <form id="pinUnlockForm" class="space-y-3">
-                <input type="password" id="pinCodeInput" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="••••" autocomplete="off" required
-                       class="w-full text-center tracking-[0.6em] text-xl font-bold py-3 px-4 rounded-2xl bg-white/90 dark:bg-white/10 border border-[#464B4F]/15 dark:border-white/15 focus:outline-none focus:ring-2 focus:ring-[#679929]">
+            <form id="pinUnlockForm" class="space-y-4">
+                <div>
+                    <label for="pinCodeInput" class="block text-[11px] font-bold uppercase tracking-[0.12em] text-[#464B4F]/70 dark:text-slate-400 mb-2.5">
+                        MASUKKAN PIN
+                    </label>
+                    <input type="password" id="pinCodeInput" inputmode="numeric" maxlength="4" pattern="[0-9]*" placeholder="• • • •" autocomplete="off" required
+                           class="w-full text-center tracking-[0.55em] pl-[0.55em] text-2xl font-bold py-3.5 px-4 rounded-2xl bg-black/[0.03] dark:bg-[#111412] border border-black/15 dark:border-white/15 text-[#464B4F] dark:text-white placeholder:text-[#464B4F]/35 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-[#86be3b] focus:border-transparent transition-all">
+                </div>
                 <p id="pinErrorMsg" class="hidden text-xs font-medium text-rose-500">PIN tidak sah. Sila cuba lagi.</p>
-                <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-[#679929] hover:bg-[#558021] text-white text-xs font-semibold shadow-sm transition-all">
-                    Buka Panel Admin
+                <button type="submit" class="w-full py-3.5 px-4 rounded-2xl bg-[#86be3b] hover:bg-[#77ad30] text-[#11180d] text-sm font-bold shadow-[0_8px_24px_rgba(134,190,59,0.28)] active:scale-[0.99] transition-all inline-flex items-center justify-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" x2="3" y1="12" y2="12"/></svg>
+                    <span>Log Masuk</span>
                 </button>
             </form>
         </div>
