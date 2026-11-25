@@ -254,23 +254,6 @@
             renderAdminList(false);
 
             try {
-                const res = await fetch(GOOGLE_SCRIPT_URL + "?t=" + new Date().getTime());
-                const json = await res.json();
-                if (json.status === "success" && json.data) {
-                    appData = json.data;
-                    localStorage.setItem('azzuha_live_cache', JSON.stringify(appData));
-                }
-            } catch (err) {
-                tunjukNotifikasi('Gagal menarik data dari Google Sheets.', true);
-            }
-            isiBorangProfil();
-            renderAdminList();
-        }
-
-        async function simpanKeGoogleSheets(mesejBerjaya = 'Perubahan berjaya disimpan!') {
-            renderAdminList();
-
-            try {
                 const res = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
