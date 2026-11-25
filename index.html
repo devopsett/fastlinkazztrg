@@ -18,13 +18,8 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    animation: { 'fade-in-up': 'fadeInUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards' },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(14px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
                     }
                 }
             }
@@ -32,7 +27,7 @@
     </script>
     <style>
         @keyframes munculLancar {
-            from { opacity: 0; transform: translateY(12px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .stagger-item {
@@ -40,7 +35,7 @@
         }
     </style>
 </head>
-<body class="relative overflow-x-hidden bg-gradient-to-br from-[#eef5e6] via-[#f8faf7] to-[#e6ece4] dark:from-[#121513] dark:via-[#181b19] dark:to-[#1d221e] text-[#464B4F] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col selection:bg-[#679929] selection:text-white transition-colors duration-300">
+<body class="relative overflow-x-hidden bg-gradient-to-br from-[#eef5e6] via-[#f8faf7] to-[#e6ece4] dark:from-[#121513] dark:via-[#181b19] dark:to-[#1d221e] text-[#464B4F] dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
     <!-- Latar Belakang Cahaya Ambien (Glassmorphism) -->
     <div class="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
@@ -49,34 +44,28 @@
         <div class="absolute -bottom-24 left-1/4 w-80 h-80 sm:w-96 sm:h-96 rounded-full bg-[#464B4F]/15 dark:bg-[#464B4F]/30 blur-3xl"></div>
     </div>
 
-    <!-- Bar Atas: Butang Kongsi & Tukar Tema -->
-    <header class="w-full max-w-md mx-auto px-4 pt-6 flex justify-between items-center">
-        <button id="shareBtn" type="button" aria-label="Salin pautan profil" class="px-3.5 py-2 rounded-full bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/80 dark:hover:bg-white/15 hover:scale-105 active:scale-95 transition-all text-[#464B4F] dark:text-slate-200 flex items-center gap-2 text-xs font-medium">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+    <!-- Bar Atas: Butang Kongsi & Penukar Tema -->
+    <header class="w-full max-w-lg mx-auto px-4 pt-6 flex items-center justify-between">
+        <button id="sharePageBtn" type="button" aria-label="Kongsi pautan halaman ini" class="inline-flex items-center gap-2 px-3.5 py-2 rounded-full text-xs font-medium bg-white/60 dark:bg-white/[0.08] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-sm hover:bg-white/80 dark:hover:bg-white/15 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5 text-[#679929] dark:text-[#86be3b]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
             <span>Kongsi</span>
         </button>
 
-        <button id="themeToggle" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-full bg-white/60 dark:bg-white/10 backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:bg-white/80 dark:hover:bg-white/15 hover:scale-105 active:scale-95 transition-all text-[#464B4F] dark:text-slate-200">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+        <button id="themeToggle" type="button" aria-label="Tukar mod gelap atau cerah" class="p-2.5 rounded-full bg-white/60 dark:bg-white/[0.08] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-sm hover:bg-white/80 dark:hover:bg-white/15 transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 hidden dark:block text-amber-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 block dark:hidden text-[#464B4F]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
         </button>
     </header>
 
-    <!-- Kandungan Utama -->
-    <main class="w-full max-w-md mx-auto px-4 py-6 flex-1 flex flex-col items-center">
+    <!-- Kandungan Utama (Mobile-First) -->
+    <main class="w-full max-w-lg mx-auto px-4 py-6 flex-1 flex flex-col items-center">
         
-        <!-- Kad Profil Glassmorphism -->
-        <section class="w-full text-center mb-6 p-6 rounded-3xl bg-white/55 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_0_rgba(70,75,79,0.08)] stagger-item">
+        <!-- Kad Profil (Glassmorphism) -->
+        <section style="animation-delay: 0ms" class="stagger-item w-full text-center mb-7 p-6 sm:p-7 rounded-3xl bg-white/60 dark:bg-white/[0.06] backdrop-blur-xl border border-white/80 dark:border-white/15 shadow-[0_8px_32px_rgba(70,75,79,0.08)]">
             <div class="relative inline-block mb-4">
-                <img 
-                    id="profileImgDisplay"
-                    src="./logoprofil.png" 
-                    onerror="this.onerror=null; this.src='https://placehold.co/160x160/679929/ffffff?text=AZ';"
-                    alt="Gambar Profil" 
-                    class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-contain p-1.5 bg-white/95 border-4 border-white/90 dark:border-white/20 shadow-lg mx-auto"
-                >
-                <span title="Akaun Disahkan" class="absolute bottom-1 right-1 bg-[#679929] text-white p-1 rounded-full border-2 border-white dark:border-[#181b19] shadow-sm">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
+                <img id="profileImgDisplay" src="./logoprofil.png" onerror="this.onerror=null;this.src='https://placehold.co/160x160/679929/ffffff?text=AZZUHA';" alt="Logo Azzuha" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-contain bg-white/95 p-2.5 border-2 border-white dark:border-white/25 shadow-lg mx-auto">
+                <span title="Akaun Rasmi" class="absolute bottom-1 right-1 w-6 h-6 bg-[#679929] text-white rounded-full flex items-center justify-center ring-2 ring-white dark:ring-[#181b19] shadow-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
                 </span>
             </div>
 
@@ -86,33 +75,37 @@
             <p id="profileUsernameDisplay" class="text-xs sm:text-sm font-semibold text-[#679929] dark:text-[#86be3b] mt-0.5">
                 @azzuhatravel
             </p>
-            <p id="profileBioDisplay" class="text-sm text-[#464B4F]/85 dark:text-slate-300 mt-3 max-w-xs mx-auto leading-relaxed">
+            <p id="profileBioDisplay" class="text-sm text-[#464B4F]/85 dark:text-slate-300 mt-3 max-w-sm mx-auto leading-relaxed">
                 Pakej Umrah, Haji & Pelancongan Muslim Pilihan Anda. Hubungi atau terokai pautan rasmi di bawah.
             </p>
         </section>
 
-        <!-- Senarai Butang Pautan Utama (Live dari Google Sheets) -->
-        <section id="linksContainer" class="w-full space-y-3.5"></section>
+        <!-- Senarai Butang Pautan -->
+        <section id="linksContainer" aria-label="Senarai pautan utama" class="w-full space-y-3.5">
+            <!-- Dijana secara dinamik -->
+        </section>
 
     </main>
 
     <!-- Pengaki -->
-    <footer class="w-full max-w-md mx-auto px-4 py-6 text-center">
-        <p class="text-xs text-[#464B4F]/70 dark:text-slate-500">
-            &copy; <span id="currentYear"></span> <span id="footerNameDisplay">Azzuha Group Travel & Tours</span> Terengganu.
+    <footer class="w-full max-w-lg mx-auto px-4 py-8 text-center">
+        <p class="text-xs text-[#464B4F]/70 dark:text-slate-400">
+            &copy; <span id="currentYear"></span> <span id="footerNameDisplay" class="font-semibold text-[#679929] dark:text-[#86be3b]">Azzuha Group Travel & Tours</span> <span class="font-semibold text-[#679929] dark:text-[#86be3b]">Terengganu</span>
         </p>
     </footer>
 
     <!-- Notifikasi Toast -->
     <div id="toastNotification" class="fixed bottom-6 left-1/2 -translate-x-1/2 translate-y-2 z-50 px-4 py-2.5 rounded-full bg-[#464B4F] dark:bg-white text-white dark:text-[#464B4F] text-xs font-medium shadow-xl opacity-0 pointer-events-none transition-all duration-300 ease-out flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#86be3b] dark:text-[#679929]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-[#86be3b] dark:text-[#679929]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         <span id="toastMessage">Pautan berjaya disalin!</span>
     </div>
 
     <script>
         // URL WEB APP GOOGLE APPS SCRIPT ANDA:
         const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmddTfdPk_ZyvhnUjbXqAq_zQSPRfnbmZIzqMtRL3LZE9x1W6HDWWys_R_8bSDwBn5/exec";
+
         let rekodDataSemasa = "";
+        let toastTimeoutId = null;
 
         const dataSandaranAwal = {
             profil: {
@@ -123,15 +116,15 @@
             },
             pautan: [
                 {
-                    tajuk: "Hubungi Pegawai Umrah & Pelancongan",
-                    subtajuk: "Pertanyaan pakej & tempahan terus melalui WhatsApp",
+                    tajuk: "Pertanyaan & Tempahan WhatsApp",
+                    subtajuk: "Berhubung terus dengan perunding umrah kami",
                     url: "https://wa.me/60123456789",
                     jenisIkon: "whatsapp",
                     sorotan: true
                 },
                 {
-                    tajuk: "Laman Web Rasmi Azzuha Travel",
-                    subtajuk: "Lihat jadual penerbangan & senarai pakej terkini",
+                    tajuk: "Laman Web Rasmi Azzuha",
+                    subtajuk: "Lihat jadual penerbangan & senarai pakej penuh",
                     url: "https://azzuhatravel.com",
                     jenisIkon: "web",
                     sorotan: false
@@ -148,7 +141,14 @@
             star: `<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`
         };
 
-        function paparkanHalaman(data) {
+        function janaCapData(data) {
+            if (!data) return "";
+            const p = data.profil || {};
+            const senarai = (data.pautan || []).map(item => `${item.tajuk}|${item.subtajuk}|${item.url}|${item.jenisIkon}|${!!item.sorotan}`).join(";;");
+            return `${p.nama}|${p.username}|${p.bio}|${p.gambar}::${senarai}`;
+        }
+
+        function paparkanHalaman(data, denganAnimasi = true) {
             if (!data) return;
 
             if (data.profil) {
@@ -173,18 +173,19 @@
 
             const container = document.getElementById('linksContainer');
             if (!data.pautan || data.pautan.length === 0) {
-                container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/80 dark:text-slate-300 stagger-item">Tiada pautan dipaparkan buat masa ini.</div>`;
+                container.innerHTML = `<div class="p-6 text-center rounded-2xl bg-white/50 dark:bg-white/[0.05] backdrop-blur-md border border-white/70 dark:border-white/10 text-xs text-[#464B4F]/80 dark:text-slate-300 ${denganAnimasi ? 'stagger-item' : ''}">Tiada pautan dipaparkan buat masa ini.</div>`;
                 return;
             }
 
             container.innerHTML = data.pautan.map((item, idx) => {
                 const ikonHtml = pustakaIkon[item.jenisIkon] || pustakaIkon.web;
-                const delayMs = (idx + 1) * 65;
+                const delayStyle = denganAnimasi ? `style="animation-delay: ${(idx + 1) * 65}ms"` : '';
+                const animClass = denganAnimasi ? 'stagger-item' : '';
 
                 if (item.sorotan) {
                     return `
-                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="animation-delay: ${delayMs}ms"
-                           class="stagger-item group relative flex items-center justify-between w-full p-4 rounded-2xl bg-[#679929]/90 hover:bg-[#558021] backdrop-blur-xl text-white border border-white/40 shadow-[0_8px_24px_rgba(103,153,41,0.3)] hover:shadow-[0_12px_28px_rgba(103,153,41,0.4)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
+                        <a href="${item.url}" target="_blank" rel="noopener noreferrer" ${delayStyle}
+                           class="${animClass} group relative flex items-center justify-between w-full p-4 rounded-2xl bg-[#679929]/90 hover:bg-[#558021] backdrop-blur-xl text-white border border-white/40 shadow-[0_8px_24px_rgba(103,153,41,0.3)] hover:shadow-[0_12px_28px_rgba(103,153,41,0.4)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
                             <div class="w-10 h-10 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center shrink-0">
                                 ${ikonHtml}
                             </div>
@@ -200,8 +201,8 @@
                 }
 
                 return `
-                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" style="animation-delay: ${delayMs}ms"
-                       class="stagger-item group flex items-center justify-between w-full p-4 rounded-2xl bg-white/60 dark:bg-white/[0.06] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl border border-white/80 dark:border-white/15 hover:border-[#679929]/50 dark:hover:border-[#86be3b]/50 shadow-[0_4px_20px_rgba(70,75,79,0.05)] hover:shadow-[0_8px_28px_rgba(103,153,41,0.12)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
+                    <a href="${item.url}" target="_blank" rel="noopener noreferrer" ${delayStyle}
+                       class="${animClass} group flex items-center justify-between w-full p-4 rounded-2xl bg-white/60 dark:bg-white/[0.06] hover:bg-white/85 dark:hover:bg-white/[0.12] backdrop-blur-xl border border-white/80 dark:border-white/15 hover:border-[#679929]/50 dark:hover:border-[#86be3b]/50 shadow-[0_4px_20px_rgba(70,75,79,0.05)] hover:shadow-[0_8px_28px_rgba(103,153,41,0.12)] hover:-translate-y-0.5 active:scale-[0.99] transition-all duration-200">
                         <div class="w-10 h-10 rounded-xl bg-[#679929]/15 dark:bg-[#679929]/25 text-[#679929] dark:text-[#86be3b] flex items-center justify-center shrink-0 group-hover:bg-[#679929] group-hover:text-white transition-colors">
                             ${ikonHtml}
                         </div>
@@ -217,18 +218,22 @@
             }).join('');
         }
 
-        async function muatDataLive() {
-            const cacheTempatan = localStorage.getItem('azzuha_live_cache');
-
-            if (cacheTempatan) {
-                try {
-                    rekodDataSemasa = cacheTempatan;
-                    paparkanHalaman(JSON.parse(cacheTempatan));
-                } catch (e) {
-                    paparkanHalaman(dataSandaranAwal);
+        async function muatDataLive(isAutoSync = false) {
+            if (!isAutoSync) {
+                const cacheTempatan = localStorage.getItem('azzuha_live_cache');
+                if (cacheTempatan) {
+                    try {
+                        const parsed = JSON.parse(cacheTempatan);
+                        rekodDataSemasa = janaCapData(parsed);
+                        paparkanHalaman(parsed, true);
+                    } catch (e) {
+                        rekodDataSemasa = janaCapData(dataSandaranAwal);
+                        paparkanHalaman(dataSandaranAwal, true);
+                    }
+                } else {
+                    rekodDataSemasa = janaCapData(dataSandaranAwal);
+                    paparkanHalaman(dataSandaranAwal, true);
                 }
-            } else {
-                paparkanHalaman(dataSandaranAwal);
             }
 
             try {
@@ -241,16 +246,28 @@
                 const json = JSON.parse(text);
 
                 if (json.status === "success" && json.data) {
-                    const dataBaharuStr = JSON.stringify(json.data);
-                    if (dataBaharuStr !== rekodDataSemasa) {
-                        rekodDataSemasa = dataBaharuStr;
-                        localStorage.setItem('azzuha_live_cache', dataBaharuStr);
-                        paparkanHalaman(json.data);
+                    const capBaharu = janaCapData(json.data);
+                    if (capBaharu !== rekodDataSemasa) {
+                        rekodDataSemasa = capBaharu;
+                        localStorage.setItem('azzuha_live_cache', JSON.stringify(json.data));
+                        paparkanHalaman(json.data, false);
                     }
                 }
             } catch (err) {
                 console.warn("Menggunakan paparan semasa sementara sambungan Google Sheets disegerakkan:", err.message);
             }
+        }
+
+        function tunjukNotifikasi(mesej) {
+            const toast = document.getElementById('toastNotification');
+            document.getElementById('toastMessage').textContent = mesej;
+            if (toastTimeoutId) clearTimeout(toastTimeoutId);
+            toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
+            toast.classList.add('opacity-100', 'translate-y-0');
+            toastTimeoutId = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
+            }, 2500);
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -260,37 +277,28 @@
             if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                 htmlEl.classList.add('dark');
             }
-
             document.getElementById('themeToggle').addEventListener('click', () => {
                 htmlEl.classList.toggle('dark');
                 localStorage.setItem('theme', htmlEl.classList.contains('dark') ? 'dark' : 'light');
             });
 
-            const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
-            let toastTimeout;
-
-            document.getElementById('shareBtn').addEventListener('click', () => {
-                const tempInput = document.createElement('input');
-                tempInput.value = window.location.href;
-                document.body.appendChild(tempInput);
-                tempInput.select();
-                document.execCommand('copy');
-                document.body.removeChild(tempInput);
-
-                toastMsg.textContent = 'Pautan profil berjaya disalin!';
-                clearTimeout(toastTimeout);
-                toast.classList.remove('opacity-0', 'translate-y-2', 'pointer-events-none');
-                toast.classList.add('opacity-100', 'translate-y-0');
-
-                toastTimeout = setTimeout(() => {
-                    toast.classList.remove('opacity-100', 'translate-y-0');
-                    toast.classList.add('opacity-0', 'translate-y-2', 'pointer-events-none');
-                }, 2500);
+            document.getElementById('sharePageBtn').addEventListener('click', () => {
+                const urlSemasa = window.location.href;
+                if (navigator.share) {
+                    navigator.share({ title: document.title, url: urlSemasa }).catch(() => {});
+                } else {
+                    const inputSementara = document.createElement('input');
+                    inputSementara.value = urlSemasa;
+                    document.body.appendChild(inputSementara);
+                    inputSementara.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(inputSementara);
+                    tunjukNotifikasi('Pautan profil berjaya disalin!');
+                }
             });
 
-            muatDataLive();
-            setInterval(muatDataLive, 20000);
+            muatDataLive(false);
+            setInterval(() => muatDataLive(true), 20000);
         });
     </script>
 </body>
